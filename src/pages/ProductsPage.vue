@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { useProduct } from '@/components/products/composables/useProduct'
+// import { useProduct } from '@/components/products/composables/useProduct'
 import MainLayout from '../components/layouts/MainLayout.vue'
 import { useAuth } from '@/composables/useAuth'
 import ProductDetail from '../components/products/ProductDetail.vue'
 import { createAvatar } from '@dicebear/core'
 import { avataaars } from '@dicebear/collection'
+import { useProduct } from '@/components/products/composables/useProduct'
 
 const { signOut, getSession } = useAuth()
 
 const session = await getSession()
 
-const { fetchProducts, error, products } = useProduct()
+
+const { error, fetchProducts, products } = useProduct()
 
 // Generate a random avatar for each user
 const randomAvatar = () => {
@@ -26,6 +28,8 @@ const randomAvatar = () => {
 const avatar = randomAvatar()
 
 await fetchProducts()
+
+
 </script>
 
 <template>

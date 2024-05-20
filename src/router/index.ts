@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: Home,
     name: 'home',
+    meta: { cantBeOnAuth: true },
     children: [
       {
         // Route for the authentication page
@@ -55,29 +56,17 @@ const router = createRouter({
   routes
 })
 
-// Middleware to check if user is authenticated before allowing access to certain routes
+
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
-
   await userStore.fetchUser()
 
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Route requires authentication
-    if (!userStore.user) {
-      // User is not authenticated, redirect to sign-in page
-      next({ name: 'sign-in' })
-    } else {
-      // User is authenticated, allow access to route
-      next()
-    }
+  if (to.meta.requiresAuth && !userStore.user) {
+    next({ name: 'home' })
+  } else if (to.meta.cantBeOnAuth && userStore.user) {
+    next({ name: 'products' })
   } else {
-    if (userStore.user && (to.name === 'sign-in' || to.name === 'sign-up' || to.name === 'magic-link')) {
-      // User is authenticated but trying to access sign-in or sign-up page, redirect to products page
-      next({ name: 'products' });
-    } else {
-      // User is not authenticated and not trying to access sign-in or sign-up page, allow access to route
-      next();
-    }
+    next()
   }
 })
 

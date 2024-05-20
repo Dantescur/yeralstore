@@ -86,8 +86,12 @@ export function useAuth() {
    * @returns The session object if the user is signed in, null otherwise
    */
   const getSession = async () => {
-    const session = await supabase.auth.getSession()
-    return session.data.session
+    const { data, error } = await supabase.auth.getSession()
+    if (error) {
+      Error.value = error
+      throw error
+    }
+    return data.session
   }
 
   return {

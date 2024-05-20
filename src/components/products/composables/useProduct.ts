@@ -4,7 +4,8 @@ import { supabase } from '../../../lib/supabaseClient';
 import type { Tables, TablesInsert, TablesUpdate } from '../../../lib/database.types';
 
 export function useProduct() {
-    const products = ref<Tables<'product'>[]>([]);
+    const products = ref<Tables<'product'>[] | null>([]);
+
     const error = ref<string | null>(null);
 
     const fetchProducts = async () => {

@@ -5,22 +5,11 @@ import { Sunny, Moon } from '@element-plus/icons-vue'
 
 // Importing custom composables
 import { toggleDark, isDark } from '@/composables'
-import { useRouter } from 'vue-router'
 
 // Defining the activeIndex
 const activeIndex = ref('1')
 
-/**
- * Handles the selection of menu items
- * @param {string} key - The key of the selected menu item
- * @param {string[]} keyPath - The array of keys of the selected menu item
- */
-const handleSelect = (key, keyPath) => {
-  console.log(key, keyPath)
-}
-
 // Getting the router instance
-const router = useRouter()
 </script>
 
 <template>
@@ -29,11 +18,10 @@ const router = useRouter()
     <!-- Header section -->
     <el-header>
       <!-- Navigation and Header content -->
-      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-        :ellipsis="false">
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :ellipsis="false">
         <el-menu-item index="0">
           <!-- Logo -->
-          <h2 @click="router.push('/')">YeralStore</h2>
+          <h2>YeralStore</h2>
         </el-menu-item>
         <!-- Flexible grow -->
         <div class="flex-grow" />

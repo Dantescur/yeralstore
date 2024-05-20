@@ -1,7 +1,7 @@
 // src/composables/useOrder.ts
 import { ref } from 'vue';
 import { supabase } from '../../../lib/supabaseClient';
-import type { Tables } from '../../../lib/database.types';
+import type { Tables, TablesInsert, TablesUpdate } from '../../../lib/database.types';
 
 export function useOrder() {
     const orders = ref<Tables<'Order'>[]>([]);
@@ -13,7 +13,7 @@ export function useOrder() {
         else orders.value = data;
     };
 
-    const addOrder = async (order: Tables<'Order'>['Insert']) => {
+    const addOrder = async (order: TablesInsert<'Order'>) => {
         const { data, error: insertError } = await supabase.from('Order').insert(order);
         if (insertError) error.value = insertError.message;
         else {
@@ -21,7 +21,7 @@ export function useOrder() {
         }
     };
 
-    const updateOrder = async (orderId: number, order: Tables<'Order'>['Update']) => {
+    const updateOrder = async (orderId: number, order: TablesUpdate<'Order'>) => {
         const { error: updateError } = await supabase.from('Order').update(order).eq('orderid', orderId);
         if (updateError) error.value = updateError.message;
         else await fetchOrders(); // Refresh list

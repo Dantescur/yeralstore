@@ -1,3 +1,19 @@
+<script setup>
+import { ref } from 'vue'
+import SignUp from '../components/auth/SignUp.vue'
+import SignIn from '../components/auth/SignIn.vue'
+import MagicLink from '../components/auth/MagicLink.vue'
+
+const isSignUp = ref(true)
+const useMagicLink = ref(false)
+
+function toggleMagicLink() {
+  useMagicLink.value = !useMagicLink.value
+}
+
+</script>
+
+
 <template>
   <div class="container">
     <!-- v-if logic to determine which auth component to show -->
@@ -16,19 +32,6 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import SignUp from '../components/auth/SignUp.vue'
-import SignIn from '../components/auth/SignIn.vue'
-import MagicLink from '../components/auth/MagicLink.vue'
-
-const isSignUp = ref(true)
-const useMagicLink = ref(false)
-
-function toggleMagicLink() {
-  useMagicLink.value = !useMagicLink.value
-}
-</script>
 
 <style scoped>
 .container {
