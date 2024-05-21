@@ -9,9 +9,8 @@ import type { Database } from './database.types'
  * @see https://supabase.io/docs/reference/javascript/initializing
  */
 export const supabase = createClient<Database>(
-    // The Supabase project URL
-    import.meta.env.VITE_SUPABASE_URL,
-    // The Supabase API key
-    import.meta.env.VITE_SUPABASE_KEY
+  // The Supabase project URL
+  import.meta.env.VITE_SUPABASE_URL,
+  // The Supabase API key
+  import.meta.env.VITE_SUPABASE_KEY
 )
-

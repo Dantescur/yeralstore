@@ -14,4 +14,3 @@ export const isDark = useDark()
  * Returns a function that can be used to toggle the value of `isDark`.
  */
 export const toggleDark = useToggle(isDark)
-

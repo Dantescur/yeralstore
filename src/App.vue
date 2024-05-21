@@ -5,6 +5,9 @@ import { RouterView } from 'vue-router'
 <template>
   <Suspense>
     <RouterView />
+    <template #fallback>
+      <slot name="fallback"></slot>
+    </template>
   </Suspense>
 </template>
 

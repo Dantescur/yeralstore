@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-import Home from '../pages/Home.vue'
-import Auth from '../pages/AuthPage.vue'
+import Home from '../pages/HomePage.vue'
+import NotFound from '../pages/NotFound.vue'
 import { useUserStore } from '@/stores/user'
 
 // Define routes for the application
@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
       {
         // Route for the authentication page
         path: '',
-        component: Auth,
+        component: () => import('../pages/AuthPage.vue'),
         name: 'auth',
         children: [
           {
@@ -47,6 +47,24 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/ProductsPage.vue'),
     // Route requires authentication
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('../pages/CustomerProfile.vue'),
+    meta: { requiresAuth: true, title: 'Profile' }
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: () => import('../pages/CartPage.vue'),
+    meta: { requiresAuth: true, title: 'Cart' }
+  },
+
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: NotFound
   }
 ]
 
@@ -55,7 +73,6 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
-
 
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
@@ -71,4 +88,3 @@ router.beforeEach(async (to, from, next) => {
 })
 
 export default router
-

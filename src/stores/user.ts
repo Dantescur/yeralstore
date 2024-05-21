@@ -16,14 +16,16 @@ export const useUserStore = defineStore('user', () => {
   }
 
   const fetchUser = async () => {
-    const { data: { user: fetchedUser } } = await supabase.auth.getUser();
-    user.value = fetchedUser;
-  };
+    const {
+      data: { user: fetchedUser }
+    } = await supabase.auth.getUser()
+    user.value = fetchedUser
+  }
 
   supabase.auth.onAuthStateChange((event, session) => {
     user.value = session?.user || null
     if (event === 'SIGNED_OUT') {
-      localStorage.removeItem('sb-igxlxmxllxgelvbyxlas-auth-token');
+      localStorage.removeItem('sb-igxlxmxllxgelvbyxlas-auth-token')
     }
   })
 

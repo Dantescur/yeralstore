@@ -73,7 +73,7 @@ export function useAuth() {
   const signOut = async (): Promise<void> => {
     isLoading.value = true
     const { error } = await supabase.auth.signOut()
-    localStorage.removeItem('sb-igxlxmxllxgelvbyxlas-auth-token');
+    localStorage.removeItem('sb-igxlxmxllxgelvbyxlas-auth-token')
     isLoading.value = false
     if (error) {
       Error.value = error
@@ -104,4 +104,3 @@ export function useAuth() {
     Error
   }
 }
-

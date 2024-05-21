@@ -1,5 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import CustomerHeader from '@/components/customer/CustomerHeader.vue'
+</script>
 
-<template></template>
+<template>
+  <CustomerHeader />
+</template>
 
 <style scoped></style>

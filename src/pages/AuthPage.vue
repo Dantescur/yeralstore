@@ -10,9 +10,7 @@ const useMagicLink = ref(false)
 function toggleMagicLink() {
   useMagicLink.value = !useMagicLink.value
 }
-
 </script>
-
 
 <template>
   <div class="container">
@@ -32,7 +30,6 @@ function toggleMagicLink() {
   </div>
 </template>
 
-
 <style scoped>
 .container {
   display: flex;
@@ -42,15 +39,15 @@ function toggleMagicLink() {
   height: 100vh;
 }
 
-.container>* {
+.container > * {
   margin-bottom: 1rem;
 }
 
-.container>button {
+.container > button {
   margin-top: 1rem;
 }
 
-.container>p {
+.container > p {
   margin-top: 1rem;
 }
 
