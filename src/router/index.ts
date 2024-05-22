@@ -79,7 +79,7 @@ router.beforeEach(async (to, from, next) => {
   await userStore.fetchUser()
 
   if (to.meta.requiresAuth && !userStore.user) {
-    next({ name: 'home' })
+    next({ name: 'sign-in' })
   } else if (to.meta.cantBeOnAuth && userStore.user) {
     next({ name: 'products' })
   } else {

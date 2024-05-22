@@ -34,6 +34,7 @@ const activeIndex = ref('1')
         <slot name="header"></slot>
         <!-- Dark mode toggle -->
         <el-menu-item index="1">
+          <!--suppress JSValidateTypes -->
           <el-switch
             v-model="isDark"
             :active-icon="Moon"

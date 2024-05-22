@@ -1,20 +1,29 @@
+import type { Product } from '@/components/products/composables/useProduct'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 export const useCartStore = defineStore(
   'cart',
   () => {
-    const cartItems = ref<number[]>([])
+    const cartItems = ref<Product[]>([])
 
-    const addItem = (productid: number) => {
-      cartItems.value.push(productid)
+    const quantity = computed(() => cartItems.value.length)
+
+    const checkout = async () => {
+      cartItems.value.forEach((product) => {
+        console.log(product)
+      })
     }
 
-    const removeItem = (productid: number) => {
-      cartItems.value = cartItems.value.filter((item) => item !== productid)
+    const addItem = (product: Product) => {
+      cartItems.value.push(product)
     }
 
-    return { cartItems, addItem, removeItem }
+    const removeItem = (index: number, product: Product) => {
+      cartItems.value = cartItems.value.filter((item) => item !== product)
+    }
+
+    return { cartItems, addItem, removeItem, quantity, checkout }
   },
   {
     persist: true

@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export type Database = {
@@ -127,6 +129,7 @@ export type Database = {
           price: number | null
           productid: number
           productname: string | null
+          stock: number | null
         }
         Insert: {
           categoryid?: number | null
@@ -135,6 +138,7 @@ export type Database = {
           price?: number | null
           productid: number
           productname?: string | null
+          stock?: number | null
         }
         Update: {
           categoryid?: number | null
@@ -143,6 +147,7 @@ export type Database = {
           price?: number | null
           productid?: number
           productname?: string | null
+          stock?: number | null
         }
         Relationships: [
           {

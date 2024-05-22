@@ -1,0 +1,74 @@
+.
+├── auto-imports.d.ts
+├── components.d.ts
+├── env.d.ts
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+├── public
+│   └── favicon.ico
+├── README.md
+├── src
+│   ├── App.vue
+│   ├── assets
+│   │   ├── base.css
+│   │   ├── logo.svg
+│   │   └── main.css
+│   ├── components
+│   │   ├── auth
+│   │   │   ├── MagicLink.vue
+│   │   │   ├── SignIn.vue
+│   │   │   └── SignUp.vue
+│   │   ├── common
+│   │   │   └── SuccessfulCompo.vue
+│   │   ├── customer
+│   │   │   ├── CustomerHeader.vue
+│   │   │   └── CustomerHome.vue
+│   │   ├── layouts
+│   │   │   └── MainLayout.vue
+│   │   └── products
+│   │       ├── CategorySelector.vue
+│   │       ├── composables
+│   │       │   ├── useCategories.ts
+│   │       │   ├── useOrderProduct.ts
+│   │       │   └── useProduct.ts
+│   │       ├── ProductDetail.vue
+│   │       ├── ProductForm.vue
+│   │       └── ProductHeader.vue
+│   ├── composables
+│   │   ├── index.ts
+│   │   ├── useAuth.ts
+│   │   ├── useBucket.ts
+│   │   ├── useDarkMode.ts
+│   │   └── useFetch.ts
+│   ├── helpers
+│   │   ├── authError.ts
+│   │   └── currency.ts
+│   ├── lib
+│   │   ├── database.types.ts
+│   │   └── supabaseClient.ts
+│   ├── main.ts
+│   ├── pages
+│   │   ├── AuthPage.vue
+│   │   ├── CartPage.vue
+│   │   ├── CustomerProfile.vue
+│   │   ├── HomePage.vue
+│   │   ├── NotFound.vue
+│   │   ├── OrdersPage.vue
+│   │   └── ProductsPage.vue
+│   ├── router
+│   │   └── index.ts
+│   ├── stores
+│   │   ├── cart.ts
+│   │   └── user.ts
+│   └── vue.d.ts
+├── supabase
+│   ├── config.toml
+│   └── seed.sql
+├── treeview.txt
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+
+17 directories, 54 files

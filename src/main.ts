@@ -22,6 +22,13 @@ app.use(pinia)
 app.use(router)
 
 const userStore = useUserStore()
-userStore.fetchUser()
+userStore
+  .fetchUser()
+  .then(() => {
+    app.mount('#app')
+  })
+  .catch(() => {
+    app.mount('#app')
+  })
 
-app.mount('#app')
+// app.mount('#app')

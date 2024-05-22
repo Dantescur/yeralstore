@@ -2,7 +2,7 @@
 import { useAuth } from '@/composables/useAuth'
 import { useUserStore } from '@/stores/user'
 import { reactive } from 'vue'
-import { showError } from '../../helpers/authError'
+import { showError } from '@/helpers/authError'
 import { useRouter } from 'vue-router'
 
 const form = reactive({
@@ -21,7 +21,7 @@ const handleMagicLink = async () => {
     const user = await signInWithMagicLink(form.email)
     userStore.setUser(user)
     isLoading.value = false
-    router.push('/products')
+    await router.push('/products')
   } catch (error) {
     isLoading.value = false
     showError(Error.value?.message)
@@ -33,7 +33,7 @@ const handleMagicLink = async () => {
   <el-form :model="form" label-width="auto" style="max-width: 600px" label-position="top">
     <h1>Sign with Magic Link</h1>
     <el-form-item label="Email">
-      <el-input type="email" v-model="form.email" />
+      <el-input type="text" v-model="form.email" />
     </el-form-item>
     <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleMagicLink"
       >Sign with Magic Link</el-button

@@ -2,7 +2,7 @@
 import { useAuth } from '@/composables/useAuth'
 import { useUserStore } from '@/stores/user'
 import { reactive } from 'vue'
-import { showError } from '../../helpers/authError'
+import { showError } from '@/helpers/authError'
 import { useRouter } from 'vue-router'
 
 const form = reactive({
@@ -20,7 +20,7 @@ const handleSignin = async () => {
     const user = await signIn(form.email, form.password)
     userStore.setUser(user)
     isLoading.value = false
-    router.push('/products')
+    await router.push('/products')
   } catch (error) {
     isLoading.value = false
     showError(Error.value?.message)
@@ -32,7 +32,7 @@ const handleSignin = async () => {
   <el-form :model="form" label-width="auto" style="max-width: 600px" label-position="top">
     <h1>Sign In</h1>
     <el-form-item label="Email">
-      <el-input type="email" v-model="form.email" />
+      <el-input type="text" v-model="form.email" />
     </el-form-item>
     <el-form-item label="Password">
       <el-input

@@ -1,3 +1,5 @@
+// noinspection Annotator
+
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
@@ -8,6 +10,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
+// noinspection JSUnusedGlobalSymbols
 export default defineConfig({
   plugins: [
     vue(),

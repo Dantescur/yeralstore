@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import CustomerHeader from '@/components/customer/CustomerHeader.vue'
-import type { Tables } from '@/lib/database.types'
+import type { Product } from '@/components/products/composables/useProduct'
 import { useCartStore } from '@/stores/cart'
 import { computed } from 'vue'
 
 const cartStore = useCartStore()
 const cartItems = computed(() => cartStore.cartItems)
 
-const removeItem = (productId: Tables<['productid']>) => {
-  cartStore.removeItem(productId)
+const removeItem = (index: number, product: Product) => {
+  cartStore.removeItem(index, product)
 }
 
-const siComoNo = () => {
-  alert('No')
+const handleCheckout = () => {
+  cartStore.checkout()
 }
 </script>
 
@@ -20,23 +20,19 @@ const siComoNo = () => {
   <CustomerHeader />
 
   <el-card class="cart">
-    <el-table :data="cartItems" stripe style="width: 100%">
-      <el-table-column prop="product.productname" label="Product" />
-      <el-table-column prop="quantity" label="Quantity" />
-      <el-table-column prop="product.price" label="Price" />
-      <el-table-column label="Total">
+    <el-table :data="cartItems" height="250px" border stripe style="width: 100%">
+      <el-table-column prop="productname" label="Product" />
+      <el-table-column prop="price" label="Price" />
+      <el-table-column align="right" label="Operations">
         <template #default="scope">
-          {{ scope.row.product.price * scope.row.quantity }}
-        </template>
-      </el-table-column>
-      <el-table-column label="Action">
-        <template #default="scope">
-          <el-button icon="el-icon-delete" type="text" @click="removeItem(scope.row.productid)" />
+          <el-button size="small" type="danger" @click="removeItem(scope.$index, scope.row)">
+            Delete
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
     <div style="margin-top: 16px">
-      <el-button type="primary" @click="siComoNo" :disabled="cartItems.length === 0"
+      <el-button type="primary" @click="handleCheckout" :disabled="cartItems.length === 0"
         >Checkout</el-button
       >
     </div>

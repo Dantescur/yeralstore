@@ -2,16 +2,13 @@
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
-const goBack = () => {
-  router.back()
-}
 </script>
 
 <template>
-  <el-page-header @back="goBack">
-    <template #content>
-      <span> {{ router.currentRoute.value.meta.title }} </span>
-    </template>
-  </el-page-header>
+  <el-page-header
+    v-if="router.currentRoute.value.meta.title"
+    title="Products"
+    @back="router.go(-1)"
+  />
+  <span v-else> {{ router.currentRoute.value.meta.title }} </span>
 </template>
