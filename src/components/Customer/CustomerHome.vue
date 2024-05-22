@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
-import ProductForm from '../products/ProductForm.vue'
+import ProductForm from '@/components/Products/ProductForm.vue'
 
 import { ref } from 'vue'
 import { useBreakpoints } from '@vueuse/core'

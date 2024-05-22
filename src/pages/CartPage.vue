@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CustomerHeader from '@/components/customer/CustomerHeader.vue'
-import type { Product } from '@/components/products/composables/useProduct'
+import CustomerHeader from '@/components/Customer/CustomerHeader.vue'
+import type { Product } from '@/composables/useProduct'
 import { useCartStore } from '@/stores/cart'
 import { computed } from 'vue'
 

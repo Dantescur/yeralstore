@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import CartPage from '@/pages/CartPage.vue'
-import type { Product } from './composables/useProduct'
+import type { Product } from '../../composables/useProduct'
 import { useCartStore } from '@/stores/cart'
 
 const { addItem } = useCartStore()

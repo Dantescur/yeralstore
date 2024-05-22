@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
-import type { Product } from '../products/composables/useProduct'
+import type { Product } from '@/composables/useProduct'
 
 // Define props
 const props = defineProps<{

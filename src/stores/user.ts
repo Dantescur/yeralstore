@@ -1,4 +1,4 @@
-import { useAuth } from '@/composables/useAuth'
+import { useAuth } from '@/composables'
 import { supabase } from '@/lib/supabaseClient'
 import type { User } from '@supabase/supabase-js'
 import { defineStore } from 'pinia'
@@ -33,7 +33,7 @@ export const useUserStore = defineStore(
       supabase.auth.onAuthStateChange((event, session) => {
         user.value = session?.user || null
         if (event === 'SIGNED_OUT') {
-          localStorage.removeItem('sb-igxlxmxllxgelvbyxlas-auth-token')
+          localStorage.removeItem('sb-igxlxmxllxgelvbyxlas-Auth-token')
         }
       })
     }

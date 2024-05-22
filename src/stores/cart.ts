@@ -1,4 +1,4 @@
-import type { Product } from '@/components/products/composables/useProduct'
+import type { Product } from '@/composables/useProduct'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 

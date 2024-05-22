@@ -1,15 +1,15 @@
 <script setup lang="ts">
-// import { useProduct } from '@/components/products/composables/useProduct'
-import MainLayout from '../components/layouts/MainLayout.vue'
-import ProductDetail from '../components/products/ProductDetail.vue'
+// import { useProduct } from '@/components/Products/composables/useProduct'
+import MainLayout from '@/components/Layouts/MainLayout.vue'
+import ProductDetail from '@/components/Products/ProductDetail.vue'
 import { createAvatar } from '@dicebear/core'
 import { avataaars } from '@dicebear/collection'
-import { useProduct } from '@/components/products/composables/useProduct'
+import { useProduct } from '@/composables'
 import { useBreakpoints } from '@vueuse/core'
 import { computed, onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
-import ProductHeader from '@/components/products/ProductHeader.vue'
-import CategorySelector from '@/components/products/CategorySelector.vue'
+import ProductHeader from '@/components/Products/ProductHeader.vue'
+import CategorySelector from '@/components/Products/CategorySelector.vue'
 
 const userStore = useUserStore()
 

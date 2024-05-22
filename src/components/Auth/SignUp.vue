@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAuth } from '@/composables/useAuth'
+import { useAuth } from '@/composables'
 import { useUserStore } from '@/stores/user'
 import { reactive } from 'vue'
 import { showError } from '@/helpers/authError'
@@ -13,14 +13,14 @@ const form = reactive({
 const userStore = useUserStore()
 const router = useRouter()
 
-const { signIn, isLoading, Error } = useAuth()
-const handleSignin = async () => {
+const { signUp, isLoading, Error } = useAuth()
+const handleSignup = async () => {
   try {
     isLoading.value = true
-    const user = await signIn(form.email, form.password)
+    const user = await signUp(form.email, form.password)
     userStore.setUser(user)
     isLoading.value = false
-    await router.push('/products')
+    await router.push('/Products')
   } catch (error) {
     isLoading.value = false
     showError(Error.value?.message)
@@ -30,7 +30,7 @@ const handleSignin = async () => {
 
 <template>
   <el-form :model="form" label-width="auto" style="max-width: 600px" label-position="top">
-    <h1>Sign In</h1>
+    <h1>Sign Up</h1>
     <el-form-item label="Email">
       <el-input type="text" v-model="form.email" />
     </el-form-item>
@@ -42,8 +42,8 @@ const handleSignin = async () => {
         show-password
       />
     </el-form-item>
-    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleSignin"
-      >Sign In</el-button
+    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleSignup"
+      >Sign Up</el-button
     >
   </el-form>
 </template>

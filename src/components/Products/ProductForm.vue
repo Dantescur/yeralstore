@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useProduct } from './composables/useProduct'
-import { useBucket } from '@/composables/useBucket'
-import SuccessfulCompo from '../common/SuccessfulCompo.vue'
+import { useProduct } from '@/composables'
+import { useBucket } from '@/composables'
+import SuccessfulCompo from '@/components/Common/SuccessfulCompo.vue'
 import { UploadFilled } from '@element-plus/icons-vue'
 
 const { addProduct, isLoading, categories, fetchCategories } = useProduct()

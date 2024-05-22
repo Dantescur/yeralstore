@@ -21,19 +21,19 @@ const routes: RouteRecordRaw[] = [
           {
             // Route for signing up
             path: '/',
-            component: () => import('../components/auth/SignUp.vue'),
+            component: () => import('@/components/Auth/SignUp.vue'),
             name: 'sign-up'
           },
           {
             // Route for signing in
             path: 'sign-in',
-            component: () => import('../components/auth/SignIn.vue'),
+            component: () => import('@/components/Auth/SignIn.vue'),
             name: 'sign-in'
           },
           {
             // Route for signing in with a magic link
             path: 'magic-link',
-            component: () => import('../components/auth/MagicLink.vue'),
+            component: () => import('@/components/Auth/MagicLink.vue'),
             name: 'magic-link'
           }
         ]
@@ -41,8 +41,8 @@ const routes: RouteRecordRaw[] = [
     ]
   },
   {
-    // Route for the products page
-    path: '/products',
+    // Route for the Products page
+    path: '/Products',
     name: 'products',
     component: () => import('../pages/ProductsPage.vue'),
     // Route requires authentication

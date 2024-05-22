@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAuth } from '@/composables/useAuth'
+import { useAuth } from '@/composables'
 import { useUserStore } from '@/stores/user'
 import { reactive } from 'vue'
 import { showError } from '@/helpers/authError'
@@ -10,18 +10,17 @@ const form = reactive({
   password: ''
 })
 
+const userStore = useUserStore()
 const router = useRouter()
 
-const userStore = useUserStore()
-
-const { signInWithMagicLink, isLoading, Error } = useAuth()
-const handleMagicLink = async () => {
+const { signIn, isLoading, Error } = useAuth()
+const handleSignin = async () => {
   try {
     isLoading.value = true
-    const user = await signInWithMagicLink(form.email)
+    const user = await signIn(form.email, form.password)
     userStore.setUser(user)
     isLoading.value = false
-    await router.push('/products')
+    await router.push('/Products')
   } catch (error) {
     isLoading.value = false
     showError(Error.value?.message)
@@ -31,12 +30,20 @@ const handleMagicLink = async () => {
 
 <template>
   <el-form :model="form" label-width="auto" style="max-width: 600px" label-position="top">
-    <h1>Sign with Magic Link</h1>
+    <h1>Sign In</h1>
     <el-form-item label="Email">
       <el-input type="text" v-model="form.email" />
     </el-form-item>
-    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleMagicLink"
-      >Sign with Magic Link</el-button
+    <el-form-item label="Password">
+      <el-input
+        v-model="form.password"
+        type="password"
+        placeholder="Please input password"
+        show-password
+      />
+    </el-form-item>
+    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleSignin"
+      >Sign In</el-button
     >
   </el-form>
 </template>

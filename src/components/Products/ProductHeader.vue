@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAuth } from '@/composables/useAuth'
+import { useAuth } from '@/composables'
 import { User, ShoppingCart, ShoppingBag, TurnOff } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 
