@@ -1,0 +1,43 @@
+{
+  "locale.selector.en-US": "English",
+  "locale.selector.es-ES": "Spanish",
+  "home": [
+    {
+      "signup": {
+        "title": "Sign Up",
+        "email": "Email",
+        "password": {
+          "label": "Password",
+          "placeholder": "Please input password"
+        },
+        "button": "Sign Up",
+        "toSignIn": "Already have an account? Sign In",
+        "divider": "Or",
+        "toMagicLink": "Sign in with magic link"
+      }
+    },
+    {
+      "signin": {
+        "title": "Sign In",
+        "email": "Email",
+        "password": {
+          "label": "Password",
+          "placeholder": "Please input password"
+        },
+        "button": "Sign In",
+        "toSignUp": "Dont't have an account yet? Sign Up",
+        "divider": "Or",
+        "toMagicLink": "Sign in with magic link"
+      }
+    },
+    {
+      "magicLink": {
+        "title": "Sign with Magic Link",
+        "email": "Email",
+        "button": "Sign in with Magic Link",
+        "divider": "Or",
+        "toSignIn": "Sign In with email and password"
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "locale.selector.en-US": "Inglés",
+  "locale.selector.es-ES": "Español",
+  "home": [
+    {
+      "signup": {
+        "title": "Registrarse",
+        "email": "Correo",
+        "password": {
+          "label": "Contraseña",
+          "placeholder": "Por favor introduzca su contraseña"
+        },
+        "button": "Registrarse",
+        "toSignIn": "Ya tienes una cuenta? Inicia sesión",
+        "divider": "O",
+        "toMagicLink": "Registrarse con enlace mágico"
+      }
+    },
+    {
+      "signin": {
+        "title": "Iniciar sesión",
+        "email": "Correo",
+        "password": {
+          "label": "Contraseña",
+          "placeholder": "Por favor introduzca su contraseña"
+        },
+        "button": "Iniciar sesión",
+        "toSignUp": "No tienes una cuenta aun? Registrarse",
+        "divider": "O",
+        "toMagicLink": "Registrarse con enlace mágico"
+      }
+    },
+    {
+      "magicLink": {
+        "title": "Iniciar sesión con enlace mágico",
+        "email": "Email",
+        "button": "Sign in with Magic Link",
+        "divider": "O",
+        "toSignIn": "Iniciar sesión con correo y contraseña"
+      }
+    }
+  ]
+}
