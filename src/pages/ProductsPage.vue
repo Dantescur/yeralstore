@@ -6,16 +6,12 @@ import { createAvatar } from '@dicebear/core'
 import { avataaars } from '@dicebear/collection'
 import { useProduct } from '@/composables'
 import { useBreakpoints } from '@vueuse/core'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import ProductHeader from '@/components/Products/ProductHeader.vue'
 import CategorySelector from '@/components/Products/CategorySelector.vue'
 
 const userStore = useUserStore()
-
-onMounted(() => {
-  userStore.fetchUser()
-})
 
 const breakpoints = useBreakpoints({
   mobile: 0,

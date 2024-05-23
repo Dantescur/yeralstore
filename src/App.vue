@@ -1,12 +1,20 @@
-<script setup lang="ts">
+<script setup>
 import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
+import { supabase } from './lib/supabaseClient'
 import { useUserStore } from './stores/user'
+
 
 const userStore = useUserStore()
 
 onMounted(() => {
-  userStore.initialize()
+  supabase.auth.getSession().then(({ data }) => {
+    userStore.userSession = data.session
+  })
+
+  supabase.auth.onAuthStateChange((_, _session) => {
+    userStore.userSession = _session
+  })
 })
 </script>
 

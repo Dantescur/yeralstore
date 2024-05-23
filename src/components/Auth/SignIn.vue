@@ -17,10 +17,10 @@ const { signIn, isLoading, Error } = useAuth()
 const handleSignin = async () => {
   try {
     isLoading.value = true
-    const user = await signIn(form.email, form.password)
-    userStore.setUser(user)
+    const session = await signIn(form.email, form.password)
+    userStore.setSession(session)
     isLoading.value = false
-    await router.push('/Products')
+    router.push('/products')
   } catch (error) {
     isLoading.value = false
     showError(Error.value?.message)
@@ -35,16 +35,9 @@ const handleSignin = async () => {
       <el-input type="text" v-model="form.email" />
     </el-form-item>
     <el-form-item label="Password">
-      <el-input
-        v-model="form.password"
-        type="password"
-        placeholder="Please input password"
-        show-password
-      />
+      <el-input v-model="form.password" type="password" placeholder="Please input password" show-password />
     </el-form-item>
-    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleSignin"
-      >Sign In</el-button
-    >
+    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleSignin">Sign In</el-button>
   </el-form>
 </template>
 

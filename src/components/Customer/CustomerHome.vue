@@ -7,8 +7,6 @@ import { useBreakpoints } from '@vueuse/core'
 
 const userStore = useUserStore()
 
-userStore.fetchUser()
-
 const showProductDrawer = ref(false)
 const showOrderDrawer = ref(false)
 
@@ -40,23 +38,10 @@ const mobile = breakpoints.between('mobile', 'tablet')
     </el-card>
   </div>
 
-  <el-drawer
-    size="40%"
-    v-model="showProductDrawer"
-    title="Add Product"
-    :with-header="false"
-    v-if="!mobile"
-  >
+  <el-drawer size="40%" v-model="showProductDrawer" title="Add Product" :with-header="false" v-if="!mobile">
     <ProductForm />
   </el-drawer>
-  <el-drawer
-    size="90%"
-    v-model="showProductDrawer"
-    title="Add Product"
-    :with-header="false"
-    v-else
-    direction="ttb"
-  >
+  <el-drawer size="90%" v-model="showProductDrawer" title="Add Product" :with-header="false" v-else direction="ttb">
     <ProductForm />
   </el-drawer>
   <el-drawer v-model="showOrderDrawer" title="Add Order" :with-header="false">
@@ -66,7 +51,7 @@ const mobile = breakpoints.between('mobile', 'tablet')
 
 <style scoped>
 .user-card {
-  margin-bottom: 16px;
+  margin: 16px;
 }
 
 .user-info {

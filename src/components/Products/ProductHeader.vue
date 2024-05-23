@@ -7,7 +7,7 @@ const { signOut } = useAuth()
 
 const logOut = async () => {
   await signOut()
-  await router.push({ name: 'sign-in' })
+  router.push({ name: 'sign-in' })
 }
 
 defineProps<{
@@ -50,26 +50,14 @@ const router = useRouter()
       <template #title>
         <el-avatar shape="circle" :size="50" :src="avatar" />
       </template>
-      <el-menu-item
-        v-for="link in links"
-        :key="link.index"
-        :index="link.index"
-        style="width: 100%"
-        class="menu-item"
-      >
-        <el-badge :hidden="link.link !== 'cart'" :value="1" :max="10">
-          <el-button
-            v-if="link.link !== 'logout'"
-            :icon="link.icon"
-            @click="router.push(`/${link.link}`)"
-            style="width: 100%"
-          >
-            {{ link.title }}
-          </el-button>
-          <el-button v-else :icon="link.icon" @click="logOut()" style="width: 100%">
-            {{ link.title }}
-          </el-button>
-        </el-badge>
+      <el-menu-item v-for="link in links" :key="link.index" :index="link.index" style="width: 100%" class="menu-item">
+        <el-link v-if="link.link !== 'logout'" :icon="link.icon" @click="router.push(`/${link.link}`)"
+          style="width: 100%">
+          {{ link.title }}
+        </el-link>
+        <el-link v-else :icon="link.icon" @click="logOut()" style="width: 100%">
+          {{ link.title }}
+        </el-link>
       </el-menu-item>
     </el-sub-menu>
   </el-menu-item>

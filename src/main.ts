@@ -10,7 +10,6 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 const app = createApp(App)
 
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { useUserStore } from './stores/user'
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
@@ -21,14 +20,5 @@ pinia.use(piniaPluginPersistedState)
 app.use(pinia)
 app.use(router)
 
-const userStore = useUserStore()
-userStore
-  .fetchUser()
-  .then(() => {
-    app.mount('#app')
-  })
-  .catch(() => {
-    app.mount('#app')
-  })
 
-// app.mount('#app')
+app.mount('#app')

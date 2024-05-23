@@ -2,7 +2,8 @@
 
 import { ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
-import type { AuthError, User } from '@supabase/supabase-js'
+import { AuthError } from '@supabase/supabase-js'
+import type { Session } from '@supabase/supabase-js'
 
 interface PostgrestError {
   code?: string
@@ -11,6 +12,13 @@ interface PostgrestError {
   message: string
   stack?: string
   cause?: unknown
+}
+
+
+export class ManualAuthError extends Error {
+  constructor(message: string) {
+    super(message)
+  }
 }
 
 /**
@@ -30,7 +38,7 @@ export function useAuth() {
    * @returns The created user object if successful, null otherwise
    * @throws The error that occurred if the sign-up request fails
    */
-  const signIn = async (email: string, password: string): Promise<User | null> => {
+  const signIn = async (email: string, password: string): Promise<Session | null> => {
     isLoading.value = true
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     isLoading.value = false
@@ -38,7 +46,7 @@ export function useAuth() {
       Error.value = error
       throw error
     }
-    return data.user
+    return data.session
   }
 
   /**
@@ -48,29 +56,33 @@ export function useAuth() {
    * @returns The signed-in user object if successful, null otherwise
    * @throws The error that occurred if the sign in request fails
    */
-  const signUp = async (email: string, password: string): Promise<User | null> => {
+  const signUp = async (email: string, password: string, firstname: string, lastname: string): Promise<Session | null> => {
     isLoading.value = true
+    if (!firstname || !lastname) {
+      throw new ManualAuthError('Please provide your firstname and lastname')
+    }
     const {
-      data: { user },
+      data: { session },
       error: signInError
     } = await supabase.auth.signUp({ email, password })
     if (signInError) {
       Error.value = signInError
       throw signInError
     }
-    if (user === null) return null
+    if (session === null) return null
     const { error: insertError } = await supabase.from('customer').insert({
-      customerid: Number(user.id),
-      firstname: user.email?.split('@')[0],
-      lastname: user.email?.split('@')[1],
-      phonenumber: ''
+      email,
+      firstname,
+      lastname,
+      user_id: session.user.id
     })
     isLoading.value = false
     if (insertError) {
+      await supabase.auth.admin.deleteUser(session.user.id)
       Error.value = insertError
       throw insertError
     }
-    return user
+    return session
   }
 
   /**
@@ -79,13 +91,15 @@ export function useAuth() {
    * @returns The signed-in user object if successful, null otherwise
    * @throws The error that occurred if the magic link request fails
    */
-  const signInWithMagicLink = async (email: string): Promise<User | null> => {
-    const { data, error } = await supabase.auth.signInWithOtp({ email })
+  const signInWithMagicLink = async (email: string): Promise<Session | null> => {
+    isLoading.value = true
+    const { data, error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: true } })
+    isLoading.value = false
     if (error) {
       Error.value = error
       throw error
     }
-    return data.user
+    return data.session
   }
 
   /**

@@ -15,13 +15,12 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const { signInWithMagicLink, isLoading, Error } = useAuth()
+
 const handleMagicLink = async () => {
   try {
-    isLoading.value = true
-    const user = await signInWithMagicLink(form.email)
-    userStore.setUser(user)
-    isLoading.value = false
-    await router.push('/Products')
+    const session = await signInWithMagicLink(form.email)
+    userStore.setSession(session)
+    router.push('/products')
   } catch (error) {
     isLoading.value = false
     showError(Error.value?.message)
@@ -35,9 +34,8 @@ const handleMagicLink = async () => {
     <el-form-item label="Email">
       <el-input type="text" v-model="form.email" />
     </el-form-item>
-    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleMagicLink"
-      >Sign with Magic Link</el-button
-    >
+    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleMagicLink">Sign with Magic
+      Link</el-button>
   </el-form>
 </template>
 

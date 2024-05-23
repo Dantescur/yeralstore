@@ -2,11 +2,14 @@
 import { ref } from 'vue'
 import { useProduct } from '@/composables'
 import { useBucket } from '@/composables'
-import SuccessfulCompo from '@/components/Common/SuccessfulCompo.vue'
-import { UploadFilled } from '@element-plus/icons-vue'
+import type { UploadInstance } from 'element-plus';
 
-const { addProduct, isLoading, categories, fetchCategories } = useProduct()
-const { upload } = useBucket()
+
+const { addProduct, categories, fetchCategories } = useProduct()
+const { upload, remove } = useBucket()
+
+const isLoading = ref(false)
+const uploadRef = ref<UploadInstance>()
 
 await fetchCategories()
 
@@ -15,18 +18,11 @@ const form = ref({
   price: 0,
   stock: 0,
   categoryid: 0,
-  productid: 0,
   picture: ''
 })
 
-const success = ref(false)
-
-const successful = () => {
-  success.value = false
-}
-
-const handleAddProduct = async () => {
-  if (!form.value.picture) {
+const handleAddProduct = async (file: File) => {
+  if (!uploadRef.value) {
     alert('Please upload an image.')
     return
   }
@@ -34,34 +30,33 @@ const handleAddProduct = async () => {
     !form.value.productname ||
     !form.value.price ||
     !form.value.stock ||
-    !form.value.categoryid ||
-    !form.value.productid
-  ) {
+    !form.value.categoryid) {
     alert('Please fill in all required fields.')
     return
   }
-  await addProduct(form.value)
-  success.value = true
+  try {
+    isLoading.value = true
+    const bucketPath = import.meta.env.VITE_BUCKET_PATH
+    const path = await upload(file)
+    form.value.picture = `${bucketPath}/${path}`
+    await addProduct(form.value)
+    isLoading.value = false
+  } catch (error) {
+    isLoading.value = false
+    await remove([`${form.value.picture}`])
+  }
 }
 
-const bucketPath = import.meta.env.VITE_BUCKET_PATH
 
-const beforeUpload = async (file: File) => {
-  const { path } = await upload(file)
-  form.value.picture = `${bucketPath}/${path}`
-  return false
-}
+
+
 </script>
 
 <template>
-  <SuccessfulCompo :on-update:dialog-visible="successful" />
   <el-form label-width="auto" style="max-width: 600px" label-position="top">
     <h1>Add Product</h1>
     <el-form-item label="Product Name">
       <el-input v-model="form.productname" />
-    </el-form-item>
-    <el-form-item label="Product ID">
-      <el-input v-model="form.productid" />
     </el-form-item>
     <el-form-item label="Price">
       <el-input v-model="form.price" type="number" />
@@ -71,31 +66,20 @@ const beforeUpload = async (file: File) => {
     </el-form-item>
     <el-form-item label="Category">
       <el-select v-model="form.categoryid" placeholder="Select Category">
-        <el-option
-          v-for="(category, index) in categories"
-          :key="index"
-          :label="category.categoryname"
-          :value="category.categoryid"
-        />
+        <el-option v-for="(category, index) in categories" :key="index" :label="category.categoryname"
+          :value="category.categoryid" />
       </el-select>
     </el-form-item>
     <el-form-item label="Upload Image">
-      <el-upload
-        class="upload-demo"
-        :limit="1"
-        drag
-        :before-upload="beforeUpload"
-        :on-success="successful"
-      >
-        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-        <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+      <el-upload class="upload-demo" :limit="1" :auto-upload="false" ref="uploadRef">
+        <template #trigger>
+          <el-button>select file</el-button>
+        </template>
         <template #tip>
           <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
         </template>
       </el-upload>
     </el-form-item>
-    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleAddProduct"
-      >Add Product</el-button
-    >
+    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleAddProduct">Add Product</el-button>
   </el-form>
 </template>

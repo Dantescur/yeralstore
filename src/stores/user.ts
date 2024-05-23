@@ -1,50 +1,37 @@
-import { useAuth } from '@/composables'
 import { supabase } from '@/lib/supabaseClient'
-import type { User } from '@supabase/supabase-js'
+import type { Session } from '@supabase/supabase-js'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 export const useUserStore = defineStore(
   'user',
   () => {
-    const user = ref<User | null | undefined>(null)
+    const userSession = ref<Session | null>(null)
+    const user = computed(() => userSession.value?.user)
     const userAvatar = ref<string>('')
-    const { getSession } = useAuth()
-
-    const setUser = (newUser: User | null) => {
-      user.value = newUser
-    }
 
     const setAvatar = (avatar: string) => {
       userAvatar.value = avatar
     }
 
-    const fetchUser = async () => {
+    const fetchSession = async () => {
       const {
-        data: { user: fetchedUser }
-      } = await supabase.auth.getUser()
-      user.value = fetchedUser
+        data: { session }
+      } = await supabase.auth.getSession()
+      userSession.value = session
     }
 
-    const initialize = async () => {
-      const session = await getSession()
-      user.value = session?.user
-
-      supabase.auth.onAuthStateChange((event, session) => {
-        user.value = session?.user || null
-        if (event === 'SIGNED_OUT') {
-          localStorage.removeItem('sb-igxlxmxllxgelvbyxlas-Auth-token')
-        }
-      })
+    const setSession = (session: Session | null) => {
+      userSession.value = session
     }
 
     return {
       user,
-      setUser,
-      fetchUser,
-      initialize,
+      setSession,
+      fetchSession,
       userAvatar,
-      setAvatar
+      setAvatar,
+      userSession
     }
   },
   {

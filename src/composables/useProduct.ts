@@ -5,7 +5,7 @@ import type { Tables, TablesInsert, TablesUpdate } from '@/lib/database.types'
 import type { PostgrestError } from '@supabase/supabase-js'
 
 export interface Product {
-  productid: number
+  productid?: number
   productname: string | null
   price: number | null
   stock: number
@@ -24,7 +24,6 @@ export function useProduct() {
   const error = ref<PostgrestError | string | undefined>('')
 
   type Patch = {
-    productid: number
     productname: string | null
     price: number | null
     stock: number
@@ -39,7 +38,6 @@ export function useProduct() {
       .from('product')
       .select(
         `
-        productid,
         productname,
         price,
         stock,
@@ -66,7 +64,6 @@ export function useProduct() {
     const { error: insertError } = await supabase.from('product').insert(product)
     isLoading.value = false
     if (insertError) error.value = insertError
-    else await fetchProducts()
   }
 
   const updateProduct = async (productId: number, product: TablesUpdate<'product'>) => {
@@ -77,7 +74,6 @@ export function useProduct() {
       .eq('productid', productId)
     isLoading.value = false
     if (updateError) error.value = updateError.message
-    else await fetchProducts()
   }
 
   const deleteProduct = async (productId: number) => {
@@ -88,7 +84,6 @@ export function useProduct() {
       .eq('productid', productId)
     isLoading.value = false
     if (deleteError) error.value = deleteError.message
-    else await fetchProducts()
   }
 
   const categories = ref<Tables<'category'>[]>()

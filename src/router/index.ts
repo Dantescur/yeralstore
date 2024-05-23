@@ -42,7 +42,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     // Route for the Products page
-    path: '/Products',
+    path: '/products',
     name: 'products',
     component: () => import('../pages/ProductsPage.vue'),
     // Route requires authentication
@@ -71,16 +71,15 @@ const routes: RouteRecordRaw[] = [
 // Create router instance
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  strict: true
 })
 
 router.beforeEach(async (to, from, next) => {
-  const userStore = useUserStore()
-  await userStore.fetchUser()
-
-  if (to.meta.requiresAuth && !userStore.user) {
+  const userStore = useUserStore();
+  if (to.meta.requiresAuth && !userStore.userSession) {
     next({ name: 'sign-in' })
-  } else if (to.meta.cantBeOnAuth && userStore.user) {
+  } else if (to.meta.cantBeOnAuth && userStore.userSession) {
     next({ name: 'products' })
   } else {
     next()

@@ -4,10 +4,13 @@ import { useUserStore } from '@/stores/user'
 import { reactive } from 'vue'
 import { showError } from '@/helpers/authError'
 import { useRouter } from 'vue-router'
+import { ManualAuthError } from '@/composables'
 
 const form = reactive({
   email: '',
-  password: ''
+  password: '',
+  firstname: '',
+  lastname: ''
 })
 
 const userStore = useUserStore()
@@ -17,13 +20,17 @@ const { signUp, isLoading, Error } = useAuth()
 const handleSignup = async () => {
   try {
     isLoading.value = true
-    const user = await signUp(form.email, form.password)
-    userStore.setUser(user)
+    const session = await signUp(form.email, form.password, form.firstname, form.lastname)
+    userStore.setSession(session)
     isLoading.value = false
-    await router.push('/Products')
+    router.push('/products')
   } catch (error) {
     isLoading.value = false
-    showError(Error.value?.message)
+    if (error instanceof ManualAuthError) {
+      showError(error.message)
+    } else {
+      showError(Error.value?.message)
+    }
   }
 }
 </script>
@@ -35,16 +42,17 @@ const handleSignup = async () => {
       <el-input type="text" v-model="form.email" />
     </el-form-item>
     <el-form-item label="Password">
-      <el-input
-        v-model="form.password"
-        type="password"
-        placeholder="Please input password"
-        show-password
-      />
+      <el-input v-model="form.password" type="password" placeholder="Please input password" show-password />
     </el-form-item>
-    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleSignup"
-      >Sign Up</el-button
-    >
+    <el-form-item label="First Name">
+      <el-input v-model="form.firstname" />
+    </el-form-item>
+    <el-form-item label="Last Name">
+      <el-input v-model="form.lastname" />
+    </el-form-item>
+    <el-form-item>
+      <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleSignup">Sign Up</el-button>
+    </el-form-item>
   </el-form>
 </template>
 
