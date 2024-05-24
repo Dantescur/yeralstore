@@ -78,16 +78,16 @@ const resetForm = () => {
   <el-form label-width="auto" style="max-width: 600px" label-position="top">
     <h1>Add Product</h1>
     <el-form-item label="Product Name">
-      <el-input v-model="form.productname" />
+      <el-input v-model.trim="form.productname" />
     </el-form-item>
     <el-form-item label="Price">
-      <el-input v-model="form.price" type="number" />
+      <el-input v-model.number="form.price" type="number" />
     </el-form-item>
     <el-form-item label="Stock">
-      <el-input v-model="form.stock" type="number" />
+      <el-input v-model.number="form.stock" type="number" />
     </el-form-item>
     <el-form-item label="Category">
-      <el-select v-model="form.categoryid" placeholder="Select Category">
+      <el-select v-model.number="form.categoryid" placeholder="Select Category">
         <el-option
           v-for="(category, index) in categories"
           :key="index"
