@@ -44,10 +44,11 @@ const props = defineProps<{
       >Add to Cart</el-button
     >
   </el-card>
-
+  <Transition name=fade>
   <el-dialog v-model="openCartVisible" title="Cart" width="600px">
     <CartPage parentComponent="Drawer" />
   </el-dialog>
+  </Transition>
 </template>
 
 <style scoped>
