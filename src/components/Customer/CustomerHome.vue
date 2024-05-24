@@ -18,7 +18,6 @@ const breakpoints = useBreakpoints({
 })
 
 const mobile = breakpoints.between('mobile', 'tablet')
-
 </script>
 
 <template>
@@ -39,10 +38,23 @@ const mobile = breakpoints.between('mobile', 'tablet')
     </el-card>
   </div>
 
-  <el-drawer size="40%" v-model="showProductDrawer" title="Add Product" :with-header="false" v-if="!mobile">
+  <el-drawer
+    size="40%"
+    v-model="showProductDrawer"
+    title="Add Product"
+    :with-header="false"
+    v-if="!mobile"
+  >
     <ProductForm />
   </el-drawer>
-  <el-drawer size="90%" v-model="showProductDrawer" title="Add Product" :with-header="false" v-else direction="ttb">
+  <el-drawer
+    size="90%"
+    v-model="showProductDrawer"
+    title="Add Product"
+    :with-header="false"
+    v-else
+    direction="ttb"
+  >
     <ProductForm />
   </el-drawer>
   <el-drawer v-model="showOrderDrawer" title="Add Order" :with-header="false">

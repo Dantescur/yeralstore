@@ -76,7 +76,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const userStore = useUserStore();
+  const userStore = useUserStore()
   if (to.meta.requiresAuth && !userStore.userSession) {
     next({ name: 'sign-in' })
   } else if (to.meta.cantBeOnAuth && userStore.userSession) {

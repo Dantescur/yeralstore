@@ -4,7 +4,6 @@ import { RouterView } from 'vue-router'
 import { supabase } from './lib/supabaseClient'
 import { useUserStore } from './stores/user'
 
-
 const userStore = useUserStore()
 
 onMounted(() => {

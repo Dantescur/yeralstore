@@ -34,8 +34,9 @@ const handleMagicLink = async () => {
     <el-form-item label="Email">
       <el-input type="text" v-model="form.email" />
     </el-form-item>
-    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleMagicLink">Sign with Magic
-      Link</el-button>
+    <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleMagicLink"
+      >Sign with Magic Link</el-button
+    >
   </el-form>
 </template>
 

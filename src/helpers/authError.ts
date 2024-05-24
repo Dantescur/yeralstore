@@ -1,15 +1,15 @@
-import type { PostgrestError } from '@supabase/supabase-js';
-import { ElNotification } from 'element-plus';
+import type { PostgrestError } from '@supabase/supabase-js'
+import { ElNotification } from 'element-plus'
 
 export const showError = (error: string | undefined | PostgrestError) => {
-  if (!error) return;
+  if (!error) return
 
   if (error instanceof Error) {
-    error = error.message;
+    error = error.message
   } else if (typeof error === 'string') {
     // Handle string errors directly
   } else if ('message' in error) {
-    error = (error as PostgrestError).message;
+    error = (error as PostgrestError).message
   }
 
   ElNotification({
@@ -17,5 +17,5 @@ export const showError = (error: string | undefined | PostgrestError) => {
     position: 'top-left',
     message: error?.toString(),
     type: 'error'
-  });
-};
+  })
+}

@@ -6,7 +6,7 @@ export const useBucket = () => {
   const error = ref<string | null>(null)
 
   const upload = async (file: File | undefined): Promise<string | undefined> => {
-    if (file === undefined) return undefined;
+    if (file === undefined) return undefined
     try {
       const filePath = `${Date.now()}_${file.name}`
       const { error: uploadError } = await supabase.storage
@@ -24,16 +24,13 @@ export const useBucket = () => {
 
   const remove = async (paths: string[]) => {
     if (paths) {
-      await supabase.storage
-        .from('yeralbucket')
-        .remove(paths)
+      await supabase.storage.from('yeralbucket').remove(paths)
     }
   }
 
   return {
     upload,
     error,
-    remove,
+    remove
   }
 }
-

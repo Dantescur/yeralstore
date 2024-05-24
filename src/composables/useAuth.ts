@@ -14,7 +14,6 @@ interface PostgrestError {
   cause?: unknown
 }
 
-
 /**
  * Custom composable that provides authentication functionality using Supabase
  * @returns An object with various authentication functions and state variables
@@ -50,7 +49,12 @@ export function useAuth() {
    * @returns The signed-in user object if successful, null otherwise
    * @throws The error that occurred if the sign in request fails
    */
-  const signUp = async (email: string, password: string, firstname: string, lastname: string): Promise<Session | null> => {
+  const signUp = async (
+    email: string,
+    password: string,
+    firstname: string,
+    lastname: string
+  ): Promise<Session | null> => {
     isLoading.value = true
     if (!firstname || !lastname) {
       authError.value = new Error('Please provide your firstname and lastname')
@@ -89,7 +93,10 @@ export function useAuth() {
    */
   const signInWithMagicLink = async (email: string): Promise<Session | null> => {
     isLoading.value = true
-    const { data, error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: true } })
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { shouldCreateUser: true }
+    })
     isLoading.value = false
     if (error) {
       authError.value = error

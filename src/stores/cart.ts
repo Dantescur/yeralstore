@@ -12,10 +12,7 @@ export const useCartStore = defineStore(
     const quantity = computed(() => cartItems.value.length)
 
     const checkout = async () => {
-      const totalPrice = cartItems.value.reduce(
-        (acc, product) => acc + (product.price ?? 0),
-        0
-      )
+      const totalPrice = cartItems.value.reduce((acc, product) => acc + (product.price ?? 0), 0)
       const notification = ElNotification({
         title: 'Checkout',
         message: `Total: $${totalPrice.toFixed(2)}`,

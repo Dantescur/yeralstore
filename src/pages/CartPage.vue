@@ -7,10 +7,9 @@ import type { TableInstance } from 'element-plus'
 
 const props = defineProps<{
   parentComponent: string
-}>();
+}>()
 
 const isDialog = props.parentComponent === 'Drawer'
-
 
 const cartStore = useCartStore()
 const cartItems = computed(() => cartStore.cartItems)
@@ -23,16 +22,22 @@ const handleCheckout = () => {
   cartStore.checkout()
 }
 
-
 const tableLayout = ref<TableInstance['tableLayout']>('fixed')
-
 </script>
 
 <template>
   <CustomerHeader v-if="!isDialog" />
 
   <el-card class="cart" style="max-width: 600px">
-    <el-table :table-layout="tableLayout" :data="cartItems" height="250px" width="300px" border stripe size='large'>
+    <el-table
+      :table-layout="tableLayout"
+      :data="cartItems"
+      height="250px"
+      width="300px"
+      border
+      stripe
+      size="large"
+    >
       <el-table-column prop="productname" label="Product" />
       <el-table-column prop="price" label="Price" />
       <el-table-column align="right" label="Operations">
@@ -44,7 +49,9 @@ const tableLayout = ref<TableInstance['tableLayout']>('fixed')
       </el-table-column>
     </el-table>
     <div style="margin-top: 16px">
-      <el-button type="primary" @click="handleCheckout" :disabled="cartItems.length === 0">Checkout</el-button>
+      <el-button type="primary" @click="handleCheckout" :disabled="cartItems.length === 0"
+        >Checkout</el-button
+      >
     </div>
   </el-card>
 </template>

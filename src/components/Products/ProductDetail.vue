@@ -30,13 +30,19 @@ const props = defineProps<{
       <p style="margin-top: 8px">Price: ${{ product.price }}</p>
       <p style="margin-top: 8px">
         <span :class="{ 'text-danger': product.stock < 20 }">
-          {{ product.stock < 20 ? 'Almost sold out:' : 'Stock:' }} </span>
-            {{ ` ${product.stock}` }}
+          {{ product.stock < 20 ? 'Almost sold out:' : 'Stock:' }}
+        </span>
+        {{ ` ${product.stock}` }}
       </p>
     </div>
 
-    <el-button type="primary" size="small" style="margin-top: 16px; width: 100%" @click="handleAddToCart">Add to
-      Cart</el-button>
+    <el-button
+      type="primary"
+      size="small"
+      style="margin-top: 16px; width: 100%"
+      @click="handleAddToCart"
+      >Add to Cart</el-button
+    >
   </el-card>
 
   <el-dialog v-model="openCartVisible" title="Cart" width="600px">
