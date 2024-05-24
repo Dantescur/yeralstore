@@ -14,7 +14,7 @@ const router = useRouter()
 
 const userStore = useUserStore()
 
-const { signInWithMagicLink, isLoading, Error } = useAuth()
+const { signInWithMagicLink, isLoading, authError } = useAuth()
 
 const handleMagicLink = async () => {
   try {
@@ -23,7 +23,7 @@ const handleMagicLink = async () => {
     router.push('/products')
   } catch (error) {
     isLoading.value = false
-    showError(Error.value?.message)
+    showError(authError.value?.message)
   }
 }
 </script>

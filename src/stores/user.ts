@@ -14,7 +14,7 @@ export const useUserStore = defineStore(
       userAvatar.value = avatar
     }
 
-    const setSession = (session: Session) => {
+    const setSession = (session: Session | null) => {
       userSession.value = session
     }
 
