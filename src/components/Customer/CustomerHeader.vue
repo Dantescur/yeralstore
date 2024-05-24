@@ -5,6 +5,9 @@ const router = useRouter()
 </script>
 
 <template>
-  <el-page-header size="500px" v-if="router.currentRoute.value.meta.title" title="Products" @back="router.go(-1)" />
-  <span v-else> {{ router.currentRoute.value.meta.title }} </span>
+  <el-page-header size="500px" @back="router.go(-1)">
+    <template #content>
+      <span> {{ router.currentRoute.value.meta.title }} </span>
+    </template>
+  </el-page-header>
 </template>

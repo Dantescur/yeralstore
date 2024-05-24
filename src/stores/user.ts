@@ -3,6 +3,7 @@ import type { Session } from '@supabase/supabase-js'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
+
 export const useUserStore = defineStore(
   'user',
   () => {
@@ -21,13 +22,8 @@ export const useUserStore = defineStore(
       userSession.value = session
     }
 
-    const setSession = (session: Session | null) => {
-      userSession.value = session
-    }
-
     return {
       user,
-      setSession,
       fetchSession,
       userAvatar,
       setAvatar,

@@ -15,19 +15,13 @@ interface PostgrestError {
 }
 
 
-export class ManualAuthError extends Error {
-  constructor(message: string) {
-    super(message)
-  }
-}
-
 /**
  * Custom composable that provides authentication functionality using Supabase
  * @returns An object with various authentication functions and state variables
  */
 export function useAuth() {
   // Error state variable that holds the most recent error that occurred
-  const Error = ref<AuthError | null | PostgrestError>(null)
+  const authError = ref<AuthError | null | PostgrestError>(null)
   // Loading state variable that indicates if an authentication request is in progress
   const isLoading = ref(false)
 
@@ -43,7 +37,7 @@ export function useAuth() {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     isLoading.value = false
     if (error) {
-      Error.value = error
+      authError.value = error
       throw error
     }
     return data.session
@@ -59,14 +53,15 @@ export function useAuth() {
   const signUp = async (email: string, password: string, firstname: string, lastname: string): Promise<Session | null> => {
     isLoading.value = true
     if (!firstname || !lastname) {
-      throw new ManualAuthError('Please provide your firstname and lastname')
+      authError.value = new Error('Please provide your firstname and lastname')
+      throw authError.value
     }
     const {
       data: { session },
       error: signInError
     } = await supabase.auth.signUp({ email, password })
     if (signInError) {
-      Error.value = signInError
+      authError.value = signInError
       throw signInError
     }
     if (session === null) return null
@@ -76,10 +71,11 @@ export function useAuth() {
       lastname,
       user_id: session.user.id
     })
+
     isLoading.value = false
     if (insertError) {
       await supabase.auth.admin.deleteUser(session.user.id)
-      Error.value = insertError
+      authError.value = insertError
       throw insertError
     }
     return session
@@ -96,7 +92,7 @@ export function useAuth() {
     const { data, error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: true } })
     isLoading.value = false
     if (error) {
-      Error.value = error
+      authError.value = error
       throw error
     }
     return data.session
@@ -113,7 +109,7 @@ export function useAuth() {
     localStorage.removeItem('sb-igxlxmxllxgelvbyxlas-Auth-token')
     isLoading.value = false
     if (error) {
-      Error.value = error
+      authError.value = error
       throw error
     }
   }
@@ -125,7 +121,7 @@ export function useAuth() {
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession()
     if (error) {
-      Error.value = error
+      authError.value = error
       throw error
     }
     return data.session
@@ -138,6 +134,6 @@ export function useAuth() {
     signInWithMagicLink,
     getSession,
     isLoading,
-    Error
+    authError
   }
 }

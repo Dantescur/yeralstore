@@ -2,7 +2,15 @@
 import CustomerHeader from '@/components/Customer/CustomerHeader.vue'
 import type { Product } from '@/composables/useProduct'
 import { useCartStore } from '@/stores/cart'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import type { TableInstance } from 'element-plus'
+
+const props = defineProps<{
+  parentComponent: string
+}>();
+
+const isDialog = props.parentComponent === 'Drawer'
+
 
 const cartStore = useCartStore()
 const cartItems = computed(() => cartStore.cartItems)
@@ -14,13 +22,17 @@ const removeItem = (index: number, product: Product) => {
 const handleCheckout = () => {
   cartStore.checkout()
 }
+
+
+const tableLayout = ref<TableInstance['tableLayout']>('fixed')
+
 </script>
 
 <template>
-  <CustomerHeader />
+  <CustomerHeader v-if="!isDialog" />
 
-  <el-card class="cart">
-    <el-table :data="cartItems" height="250px" border stripe style="width: 100%">
+  <el-card class="cart" style="max-width: 600px">
+    <el-table :table-layout="tableLayout" :data="cartItems" height="250px" width="300px" border stripe size='large'>
       <el-table-column prop="productname" label="Product" />
       <el-table-column prop="price" label="Price" />
       <el-table-column align="right" label="Operations">
@@ -32,16 +44,13 @@ const handleCheckout = () => {
       </el-table-column>
     </el-table>
     <div style="margin-top: 16px">
-      <el-button type="primary" @click="handleCheckout" :disabled="cartItems.length === 0"
-        >Checkout</el-button
-      >
+      <el-button type="primary" @click="handleCheckout" :disabled="cartItems.length === 0">Checkout</el-button>
     </div>
   </el-card>
 </template>
 
 <style scoped lang="scss">
 .cart {
-  max-width: 600px;
   margin: 0 auto;
 }
 </style>

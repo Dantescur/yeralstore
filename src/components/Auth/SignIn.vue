@@ -13,7 +13,7 @@ const form = reactive({
 const userStore = useUserStore()
 const router = useRouter()
 
-const { signIn, isLoading, Error } = useAuth()
+const { signIn, isLoading, authError } = useAuth()
 const handleSignin = async () => {
   try {
     isLoading.value = true
@@ -23,7 +23,7 @@ const handleSignin = async () => {
     router.push('/products')
   } catch (error) {
     isLoading.value = false
-    showError(Error.value?.message)
+    showError(authError.value?.message)
   }
 }
 </script>

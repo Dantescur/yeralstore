@@ -4,7 +4,6 @@ import { useUserStore } from '@/stores/user'
 import { reactive } from 'vue'
 import { showError } from '@/helpers/authError'
 import { useRouter } from 'vue-router'
-import { ManualAuthError } from '@/composables'
 
 const form = reactive({
   email: '',
@@ -16,7 +15,7 @@ const form = reactive({
 const userStore = useUserStore()
 const router = useRouter()
 
-const { signUp, isLoading, Error } = useAuth()
+const { signUp, isLoading, authError } = useAuth()
 const handleSignup = async () => {
   try {
     isLoading.value = true
@@ -26,11 +25,7 @@ const handleSignup = async () => {
     router.push('/products')
   } catch (error) {
     isLoading.value = false
-    if (error instanceof ManualAuthError) {
-      showError(error.message)
-    } else {
-      showError(Error.value?.message)
-    }
+    showError(authError.value?.message)
   }
 }
 </script>

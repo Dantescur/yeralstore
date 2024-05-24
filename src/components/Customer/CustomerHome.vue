@@ -18,6 +18,7 @@ const breakpoints = useBreakpoints({
 })
 
 const mobile = breakpoints.between('mobile', 'tablet')
+
 </script>
 
 <template>
@@ -59,5 +60,11 @@ const mobile = breakpoints.between('mobile', 'tablet')
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+}
+
+.user-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 </style>

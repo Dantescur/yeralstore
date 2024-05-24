@@ -1,7 +1,7 @@
 // src/composables/useProduct.ts
 import { ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
-import type { Tables, TablesInsert, TablesUpdate } from '@/lib/database.types'
+import type { Tables, TablesInsert } from '@/lib/database.types'
 import type { PostgrestError } from '@supabase/supabase-js'
 
 export interface Product {
@@ -63,27 +63,10 @@ export function useProduct() {
     isLoading.value = true
     const { error: insertError } = await supabase.from('product').insert(product)
     isLoading.value = false
-    if (insertError) error.value = insertError
-  }
-
-  const updateProduct = async (productId: number, product: TablesUpdate<'product'>) => {
-    isLoading.value = true
-    const { error: updateError } = await supabase
-      .from('product')
-      .update(product)
-      .eq('productid', productId)
-    isLoading.value = false
-    if (updateError) error.value = updateError.message
-  }
-
-  const deleteProduct = async (productId: number) => {
-    isLoading.value = true
-    const { error: deleteError } = await supabase
-      .from('product')
-      .delete()
-      .eq('productid', productId)
-    isLoading.value = false
-    if (deleteError) error.value = deleteError.message
+    if (insertError) {
+      error.value = insertError
+      throw insertError
+    }
   }
 
   const categories = ref<Tables<'category'>[]>()
@@ -99,8 +82,6 @@ export function useProduct() {
     error,
     fetchProducts,
     addProduct,
-    updateProduct,
-    deleteProduct,
     categories,
     isLoading,
     fetchCategories
