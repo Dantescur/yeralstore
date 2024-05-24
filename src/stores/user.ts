@@ -14,6 +14,10 @@ export const useUserStore = defineStore(
       userAvatar.value = avatar
     }
 
+    const setSession = (session: Session) => {
+      userSession.value = session
+    }
+
     const fetchSession = async () => {
       const {
         data: { session }
@@ -26,7 +30,8 @@ export const useUserStore = defineStore(
       fetchSession,
       userAvatar,
       setAvatar,
-      userSession
+      userSession,
+      setSession
     }
   },
   {
