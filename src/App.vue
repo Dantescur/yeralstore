@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { useUserStore } from './stores/user'
+import {} from ''
 
 const userStore = useUserStore()
 
