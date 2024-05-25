@@ -22,13 +22,19 @@ const form = ref({
   picture: ''
 })
 
+let filePath: string | undefined = undefined
+
+const submitUpload = async () => {
+  console.time('upload')
+  filePath = await upload(uploadRef.value?.fileList[0].raw)
+  console.timeEnd('upload')
+}
+
 const handleAddProduct = async () => {
-  let filePath: string | undefined = undefined
   if (!form.value.productname || !form.value.price || !form.value.stock || !form.value.categoryid) {
     showError('Please fill in all required fields.')
     return
   }
-
   try {
     isLoading.value = true
     if (uploadRef.value?.fileList[0]) {
@@ -63,6 +69,7 @@ const handleAddProduct = async () => {
   }
 }
 
+
 const resetForm = () => {
   form.value = {
     productname: '',
@@ -88,12 +95,8 @@ const resetForm = () => {
     </el-form-item>
     <el-form-item label="Category">
       <el-select v-model.number="form.categoryid" placeholder="Select Category">
-        <el-option
-          v-for="(category, index) in categories"
-          :key="index"
-          :label="category.categoryname"
-          :value="category.categoryid"
-        />
+        <el-option v-for="(category, index) in categories" :key="index" :label="category.categoryname"
+          :value="category.categoryid" />
       </el-select>
     </el-form-item>
     <el-form-item label="Upload Image">
@@ -101,6 +104,9 @@ const resetForm = () => {
         <template #trigger>
           <el-button>select file</el-button>
         </template>
+        <el-button class="separator" type="success" @click="submitUpload">
+          upload to server
+        </el-button>
         <template #tip>
           <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
         </template>
@@ -111,3 +117,13 @@ const resetForm = () => {
     </el-button>
   </el-form>
 </template>
+
+<style scoped>
+h1 {
+  margin-bottom: 1rem;
+}
+
+.separator {
+  margin-left: 1rem;
+}
+</style>
