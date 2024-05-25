@@ -5,6 +5,7 @@ import { reactive } from 'vue'
 import { showError } from '@/helpers/authError'
 import { useRouter } from 'vue-router'
 
+
 const form = reactive({
   email: '',
   password: '',
@@ -37,12 +38,7 @@ const handleSignup = async () => {
       <el-input type="text" v-model="form.email" />
     </el-form-item>
     <el-form-item label="Password">
-      <el-input
-        v-model="form.password"
-        type="password"
-        placeholder="Please input password"
-        show-password
-      />
+      <el-input v-model="form.password" type="password" placeholder="Please input password" show-password />
     </el-form-item>
     <el-form-item label="First Name">
       <el-input v-model="form.firstname" />
@@ -51,9 +47,7 @@ const handleSignup = async () => {
       <el-input v-model="form.lastname" />
     </el-form-item>
     <el-form-item>
-      <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleSignup"
-        >Sign Up</el-button
-      >
+      <el-button v-loading.fullscreen.lock="isLoading" type="primary" @click="handleSignup">Sign Up</el-button>
     </el-form-item>
   </el-form>
 </template>

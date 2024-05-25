@@ -4,7 +4,7 @@ import type { Product } from '@/composables/useProduct'
 
 // Define props
 const props = defineProps<{
-  product: Product[]
+  product?: Product[]
   selectedCategories: string[]
 }>()
 
@@ -19,6 +19,11 @@ watch(localSelectedcategories, (newValue) => {
 })
 
 const categoryOptions = computed(() => {
+
+  if (props.product === undefined) {
+    return []
+  }
+
   return props.product
     .map((product) => product.category.categoryname)
     .filter((category, index, self) => category && self.indexOf(category) === index)
@@ -31,12 +36,6 @@ const categoryOptions = computed(() => {
 
 <template>
   <!--suppress HtmlUnknownTag -->
-  <el-select-v2
-    multiple
-    clearable
-    v-model="localSelectedcategories"
-    :options="categoryOptions"
-    placeholder="Please select"
-    style="width: 340px"
-  />
+  <el-select-v2 multiple clearable v-model="localSelectedcategories" :options="categoryOptions"
+    placeholder="Please select" style="width: 240px" />
 </template>

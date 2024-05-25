@@ -29,6 +29,7 @@ const mobile = breakpoints.between('mobile', 'tablet')
         </el-col>
         <el-col :span="16" class="user-info">
           <div class="user-name">{{ userStore.user?.email }}</div>
+          <div class="username">{{ userStore.user?.user_metadata }}</div>
           <div class="actions">
             <el-button type="primary" @click="showProductDrawer = true">Add Product</el-button>
             <el-button type="primary" @click="showOrderDrawer = true">Add Order</el-button>
@@ -38,23 +39,10 @@ const mobile = breakpoints.between('mobile', 'tablet')
     </el-card>
   </div>
 
-  <el-drawer
-    size="40%"
-    v-model="showProductDrawer"
-    title="Add Product"
-    :with-header="false"
-    v-if="!mobile"
-  >
+  <el-drawer size="40%" v-model="showProductDrawer" title="Add Product" :with-header="false" v-if="!mobile">
     <ProductForm />
   </el-drawer>
-  <el-drawer
-    size="90%"
-    v-model="showProductDrawer"
-    title="Add Product"
-    :with-header="false"
-    v-else
-    direction="ttb"
-  >
+  <el-drawer size="90%" v-model="showProductDrawer" title="Add Product" :with-header="false" v-else direction="ttb">
     <ProductForm />
   </el-drawer>
   <el-drawer v-model="showOrderDrawer" title="Add Order" :with-header="false">

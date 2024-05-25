@@ -8,7 +8,7 @@ export interface Product {
   productid?: number
   productname: string | null
   price: number | null
-  stock: number
+  stock: number | null
   categoryid: number | null
   picture: string | null
   category: Category
@@ -32,7 +32,49 @@ export function useProduct() {
     category: { categoryname: string }
   }[]
 
-  const fetchProducts = async (): Promise<Product[] | string> => {
+
+  // const fetchProducts = async (): Promise<Product[]> => {
+  //   const { data, error } = await supabase.from('product').select(`
+  //       productname,
+  //       price,
+  //       stock,
+  //       categoryid,
+  //       picture,
+  //       category:categoryid (
+  //         categoryname
+  //       )
+  //   `)
+
+  //   if (error) {
+  //     throw new Error(error.message)
+  //   }
+
+  //   if (!data) {
+  //     throw new Error('No data returned from the query');
+  //   }
+
+  //   const products = data.map((item: any) => {
+  //     if (!item.category || !item.category.categoryname) {
+  //       throw new Error('Category data is missing or incorrect');
+  //     }
+
+  //     return {
+  //       productname: item.productname,
+  //       price: item.price,
+  //       stock: item.stock,
+  //       categoryid: item.categoryid,
+  //       picture: item.picture,
+  //       category: {
+  //         categoryname: item.category.categoryname,
+  //       },
+  //     } as Product;
+  //   });
+
+  //   return products
+  // }
+
+
+  const fetchProducts = async (): Promise<Product[]> => {
     isLoading.value = true
     const { data, error: fetchError } = await supabase
       .from('product')
@@ -52,7 +94,7 @@ export function useProduct() {
     isLoading.value = false
     if (fetchError) {
       error.value = fetchError.message
-      return fetchError.message
+      throw new Error(fetchError.message)
     } else {
       products.value = data
       return data

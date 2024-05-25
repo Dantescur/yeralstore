@@ -10,6 +10,7 @@ import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import ProductHeader from '@/components/Products/ProductHeader.vue'
 import CategorySelector from '@/components/Products/CategorySelector.vue'
+import { useQuery } from '@tanstack/vue-query'
 
 const userStore = useUserStore()
 
@@ -24,7 +25,11 @@ const mobile = breakpoints.between('mobile', 'tablet')
 
 const { fetchProducts, products } = useProduct()
 
-// await fetchProducts()
+// const { data: products, isError, isLoading, error, isPending } = useQuery({
+//   queryKey: ['products'],
+//   queryFn: fetchProducts,
+// })
+
 await fetchProducts()
 
 // Generate a random avatar for each user
@@ -45,10 +50,11 @@ const selectedCategories = ref<string[]>([])
 const filteredProducts = computed(() => {
   if (selectedCategories.value.length === 0) {
     return products.value
+  } else {
+    return products.value.filter((product) =>
+      selectedCategories.value.includes(product.category.categoryname)
+    )
   }
-  return products.value.filter((product) =>
-    selectedCategories.value.includes(product.category.categoryname)
-  )
 })
 </script>
 

@@ -63,25 +63,19 @@ export function useAuth() {
     const {
       data: { session },
       error: signInError
-    } = await supabase.auth.signUp({ email, password })
+    } = await supabase.auth.signUp({
+      email, password, options: {
+        data: {
+          firstname,
+          lastname
+        }
+      }
+    })
     if (signInError) {
       authError.value = signInError
       throw signInError
     }
-    if (session === null) return null
-    const { error: insertError } = await supabase.from('customer').insert({
-      email,
-      firstname,
-      lastname,
-      user_id: session.user.id
-    })
-
     isLoading.value = false
-    if (insertError) {
-      await supabase.auth.admin.deleteUser(session.user.id)
-      authError.value = insertError
-      throw insertError
-    }
     return session
   }
 
