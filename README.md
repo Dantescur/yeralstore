@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/361644e4-27b6-4d76-88a4-ae5b9bd2bae2/deploy-status)](https://app.netlify.com/sites/yeralstore/deploys)
+
 # yeralstore
 
 This template should help get you started developing with Vue 3 in Vite.
