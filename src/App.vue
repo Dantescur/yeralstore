@@ -28,16 +28,5 @@ onMounted(() => {
 
 <style>
 
-.fade-leave-active, 
-.fade-enter-active {
-  transition: opacity 1s
-}
-
-.fade-enter-from,
-.fade-leave-to {
- opqcity: 0
-}
-
-
 
 </style>
