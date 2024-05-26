@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-import Home from '../pages/HomePage.vue'
 import NotFound from '../pages/NotFound.vue'
 import { useUserStore } from '@/stores/user'
 
@@ -7,60 +6,59 @@ import { useUserStore } from '@/stores/user'
 const routes: RouteRecordRaw[] = [
   {
     // Route for the home page
-    path: '/',
-    component: Home,
+    path: '',
     name: 'home',
-    meta: { cantBeOnAuth: true },
+    redirect: { name: 'products' },
     children: [
       {
-        // Route for the authentication page
-        path: '',
-        component: () => import('../pages/AuthPage.vue'),
-        name: 'auth',
-        children: [
-          {
-            // Route for signing up
-            path: '/',
-            component: () => import('@/components/Auth/SignUp.vue'),
-            name: 'sign-up'
-          },
-          {
-            // Route for signing in
-            path: 'sign-in',
-            component: () => import('@/components/Auth/SignIn.vue'),
-            name: 'sign-in'
-          },
-          {
-            // Route for signing in with a magic link
-            path: 'magic-link',
-            component: () => import('@/components/Auth/MagicLink.vue'),
-            name: 'magic-link'
-          }
-        ]
+        // Route for the Products page
+        path: '/products',
+        name: 'products',
+        component: () => import('../pages/ProductsPage.vue')
+      },
+      {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('../pages/CustomerProfile.vue'),
+        meta: { requiresAuth: true, title: 'Profile' }
+      },
+      {
+        path: '/cart',
+        name: 'cart',
+        component: () => import('../pages/CartPage.vue'),
+        meta: { requiresAuth: true, title: 'Cart' }
       }
     ]
   },
   {
-    // Route for the Products page
-    path: '/products',
-    name: 'products',
-    component: () => import('../pages/ProductsPage.vue'),
-    // Route requires authentication
-    meta: { requiresAuth: true }
+    // Route for the authentication page
+    path: '/auth',
+    component: () => import('../pages/AuthPage.vue'),
+    name: 'auth',
+    // children: [
+    //   {
+    //     // Route for signing up
+    //     path: '/sign-up',
+    //     component: () => import('@/components/Auth/SignUp.vue'),
+    //     name: 'sign-up',
+    //     meta: { title: 'Sign Up' }
+    //   },
+    //   {
+    //     // Route for signing in
+    //     path: 'sign-in',
+    //     component: () => import('@/components/Auth/SignIn.vue'),
+    //     name: 'sign-in',
+    //     meta: { title: 'Sign In' }
+    //   },
+    //   {
+    //     // Route for signing in with a magic link
+    //     path: 'magic-link',
+    //     component: () => import('@/components/Auth/MagicLink.vue'),
+    //     name: 'magic-link',
+    //     meta: { title: 'Magic Link' }
+    //   }
+    // ]
   },
-  {
-    path: '/profile',
-    name: 'profile',
-    component: () => import('../pages/CustomerProfile.vue'),
-    meta: { requiresAuth: true, title: 'Profile' }
-  },
-  {
-    path: '/cart',
-    name: 'cart',
-    component: () => import('../pages/CartPage.vue'),
-    meta: { requiresAuth: true, title: 'Cart' }
-  },
-
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',

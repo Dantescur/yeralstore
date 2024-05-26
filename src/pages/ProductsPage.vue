@@ -2,17 +2,13 @@
 // import { useProduct } from '@/components/Products/composables/useProduct'
 import MainLayout from '@/components/Layouts/MainLayout.vue'
 import ProductDetail from '@/components/Products/ProductDetail.vue'
-import { createAvatar } from '@dicebear/core'
-import { avataaars } from '@dicebear/collection'
 import { useProduct } from '@/composables'
 import { useBreakpoints } from '@vueuse/core'
 import { computed, ref } from 'vue'
-import { useUserStore } from '@/stores/user'
 import ProductHeader from '@/components/Products/ProductHeader.vue'
 import CategorySelector from '@/components/Products/CategorySelector.vue'
 import { useQuery } from '@tanstack/vue-query'
-
-const userStore = useUserStore()
+import type { Product } from '@/composables'
 
 const breakpoints = useBreakpoints({
   mobile: 0,
@@ -23,45 +19,55 @@ const breakpoints = useBreakpoints({
 
 const mobile = breakpoints.between('mobile', 'tablet')
 
-const { fetchProducts, products } = useProduct()
+const { fetchProducts } = useProduct()
 
-// const { data: products, isError, isLoading, error, isPending } = useQuery({
-//   queryKey: ['products'],
-//   queryFn: fetchProducts,
-// })
+const {
+  data: products,
+  isError,
+  isLoading,
+  error,
+  isPending
+} = useQuery({
+  queryKey: ['products'],
+  queryFn: fetchProducts
+})
 
-await fetchProducts()
+// await fetchProducts()
 
-// Generate a random avatar for each user
-const randomAvatar = () => {
-  return createAvatar(avataaars, {
-    seed: userStore.user?.id,
-    size: 50,
-    style: ['circle']
-  }).toDataUriSync()
+function isProductArray(value: any): value is Product[] {
+  return Array.isArray(value) && value.length > 0 && typeof value[0].productname === 'string'
 }
 
-const avatar = randomAvatar()
+const filteredProducts = computed(() => {
+  if (!products.value) {
+    return []
+  }
 
-userStore.setAvatar(avatar)
+  if (typeof products.value === 'string') {
+    // Handle the case where products.value is an error message
+    return []
+  }
+
+  if (isProductArray(products.value)) {
+    if (selectedCategories.value.length === 0) {
+      return products.value
+    } else {
+      return products.value.filter((product) =>
+        selectedCategories.value.includes(product.category.categoryname)
+      )
+    }
+  }
+
+  return []
+})
 
 const selectedCategories = ref<string[]>([])
-
-const filteredProducts = computed(() => {
-  if (selectedCategories.value.length === 0) {
-    return products.value
-  } else {
-    return products.value.filter((product) =>
-      selectedCategories.value.includes(product.category.categoryname)
-    )
-  }
-})
 </script>
 
 <template>
   <MainLayout>
     <template #header>
-      <ProductHeader :avatar="avatar" />
+      <ProductHeader />
     </template>
     <template #main>
       <div class="product-heading">

@@ -73,7 +73,6 @@ export function useProduct() {
   //   return products
   // }
 
-
   const fetchProducts = async (): Promise<Product[]> => {
     isLoading.value = true
     const { data, error: fetchError } = await supabase

@@ -1,20 +1,39 @@
 <script setup lang="ts">
 import { useAuth } from '@/composables'
+import { useUserStore } from '@/stores/user';
 import { User, ShoppingCart, ShoppingBag, TurnOff } from '@element-plus/icons-vue'
+import { computed } from 'vue';
 import { useRouter } from 'vue-router'
-
 const { signOut } = useAuth()
+
+const userStore = useUserStore()
 
 const logOut = async () => {
   await signOut()
-  router.push({ name: 'sign-in' })
+  userStore.clearUser()
 }
 
-defineProps<{
-  avatar: string
-}>()
 
-const links = [
+
+
+const links = computed(() => {
+  if (userStore.userSession) {
+    return authLinks
+  } else {
+    return noAuthLinks
+  }
+})
+
+const noAuthLinks = [
+  {
+    index: '0-1',
+    title: 'Login',
+    link: 'auth',
+    icon: User
+  }
+]
+
+const authLinks = [
   {
     index: '1-1',
     title: 'Cart',
@@ -48,7 +67,7 @@ const router = useRouter()
   <el-menu-item index="0">
     <el-sub-menu index="1">
       <template #title>
-        <el-avatar shape="circle" :size="50" :src="avatar" />
+        <el-avatar shape="circle" :size="50" :src="userStore.userAvatar" />
       </template>
       <el-menu-item v-for="link in links" :key="link.index" :index="link.index" style="width: 100%" class="menu-item">
         <el-link v-if="link.link !== 'logout'" :icon="link.icon" @click="router.push(`/${link.link}`)"

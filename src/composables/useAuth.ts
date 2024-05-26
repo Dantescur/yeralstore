@@ -42,13 +42,7 @@ export function useAuth() {
     return data.session
   }
 
-  /**
-   * Signs in an existing user with the provided email and password
-   * @param email - The email of the user
-   * @param password - The password of the user
-   * @returns The signed-in user object if successful, null otherwise
-   * @throws The error that occurred if the sign in request fails
-   */
+
   const signUp = async (
     email: string,
     password: string,

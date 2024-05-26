@@ -4,23 +4,32 @@ import SignUp from '@/components/Auth/SignUp.vue'
 import SignIn from '@/components/Auth/SignIn.vue'
 import MagicLink from '@/components/Auth/MagicLink.vue'
 
-const isSignUp = ref(true)
+const isSignIn = ref(true)
 const useMagicLink = ref(false)
 
 function toggleMagicLink() {
   useMagicLink.value = !useMagicLink.value
 }
+
+
 </script>
 
 <template>
   <div class="container">
+    <div class="header">
+      <el-page-header size="500px" @back="$router.push('/products')">
+        <template #content>
+          <span>Back to Products</span>
+        </template>
+      </el-page-header>
+    </div>
     <!-- v-if logic to determine which Auth component to show -->
-    <sign-up v-if="isSignUp && !useMagicLink" />
-    <sign-in v-else-if="!isSignUp && !useMagicLink" />
+    <sign-in v-if="isSignIn && !useMagicLink" />
+    <sign-up v-else-if="!isSignIn && !useMagicLink" />
     <magic-link v-else />
     <div class="buttons-container">
-      <el-button v-if="!useMagicLink" @click="isSignUp = !isSignUp">
-        {{ isSignUp ? 'Already have an account? Sign In' : "Don't have an account yet? Sign Up" }}
+      <el-button v-if="!useMagicLink" @click="isSignIn = !isSignIn">
+        {{ isSignIn ? 'Already have an account? Sign In' : "Don't have an account yet? Sign Up" }}
       </el-button>
       <p class="centered">Or</p>
       <el-button @click="toggleMagicLink">
@@ -31,6 +40,20 @@ function toggleMagicLink() {
 </template>
 
 <style scoped>
+template {
+  position: relative;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  margin: 0 -16px;
+  padding: 16px;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -39,15 +62,15 @@ function toggleMagicLink() {
   height: 100vh;
 }
 
-.container > * {
+.container>* {
   margin-bottom: 1rem;
 }
 
-.container > button {
+.container>button {
   margin-top: 1rem;
 }
 
-.container > p {
+.container>p {
   margin-top: 1rem;
 }
 

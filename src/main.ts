@@ -3,6 +3,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 import router from './router'
 import piniaPluginPersistedState from 'pinia-plugin-persistedstate'
 import 'element-plus/dist/index.css'
@@ -21,6 +22,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
+app.use(VueQueryPlugin)
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedState)
 app.use(pinia)

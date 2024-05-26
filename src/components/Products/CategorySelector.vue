@@ -20,10 +20,9 @@ watch(localSelectedcategories, (newValue) => {
 
 const categoryOptions = computed(() => {
 
-  if (props.product === undefined) {
+  if (!props.product) {
     return []
-  }
-
+  } else {
   return props.product
     .map((product) => product.category.categoryname)
     .filter((category, index, self) => category && self.indexOf(category) === index)
@@ -31,6 +30,8 @@ const categoryOptions = computed(() => {
       value: category,
       label: category
     }))
+  }
+
 })
 </script>
 

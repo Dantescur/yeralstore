@@ -12,10 +12,9 @@ export const useBucket = () => {
       const { error: uploadError } = await supabase.storage
         .from('yeralbucket')
         .upload(filePath, file)
-      if (uploadError) {
-        throw uploadError
+      if (!uploadError) {
+        return filePath
       }
-      return filePath
     } catch (uploadError) {
       error.value = (uploadError as Error).message
       return undefined

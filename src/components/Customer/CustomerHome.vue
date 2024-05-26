@@ -22,7 +22,22 @@ const mobile = breakpoints.between('mobile', 'tablet')
 
 <template>
   <div>
-    <el-card class="user-card">
+    <el-tabs tab-position="top" style="height: 800px" class="demo-tabs" stretch>
+      <el-tab-pane label="Profile">
+        Profile
+      </el-tab-pane>
+      <el-tab-pane label="My Products">
+        Products
+        <!-- <ProductsTable /> -->
+      </el-tab-pane>
+      <el-tab-pane label="Orders">
+        Orders
+      </el-tab-pane>
+      <el-tab-pane label="Settings">
+        Settings
+      </el-tab-pane>
+    </el-tabs>
+    <!-- <el-card class="user-card">
       <el-row>
         <el-col :span="8">
           <el-avatar :src="userStore.userAvatar" :size="100"></el-avatar>
@@ -36,7 +51,7 @@ const mobile = breakpoints.between('mobile', 'tablet')
           </div>
         </el-col>
       </el-row>
-    </el-card>
+    </el-card> -->
   </div>
 
   <el-drawer size="40%" v-model="showProductDrawer" title="Add Product" :with-header="false" v-if="!mobile">
@@ -66,5 +81,21 @@ const mobile = breakpoints.between('mobile', 'tablet')
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 8px;
+}
+
+.demo-tabs {
+  margin-top: 16px;
+}
+
+.demo-tabs>.el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.el-tabs--right .el-tabs__content,
+.el-tabs--left .el-tabs__content {
+  height: 100%;
 }
 </style>

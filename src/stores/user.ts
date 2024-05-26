@@ -1,3 +1,4 @@
+import { buildAvatar } from '@/helpers/buildAvatar'
 import { supabase } from '@/lib/supabaseClient'
 import type { Session } from '@supabase/supabase-js'
 
@@ -11,8 +12,17 @@ export const useUserStore = defineStore(
     const user = computed(() => userSession.value?.user)
     const userAvatar = ref<string>('')
 
-    const setAvatar = (avatar: string) => {
-      userAvatar.value = avatar
+    const setAvatar = () => {
+      let newAvatar;
+      if (userSession.value) {
+        newAvatar = buildAvatar(userSession.value.user.user_metadata.firstname)
+        userAvatar.value = newAvatar()
+      } else {
+        newAvatar = buildAvatar('Anonymous')
+        userAvatar.value = newAvatar()
+      }
+
+
     }
 
     const setSession = (session: Session | null) => {
@@ -26,13 +36,19 @@ export const useUserStore = defineStore(
       userSession.value = session
     }
 
+    const clearUser = () => {
+      userSession.value = null
+      userAvatar.value = 'Anonymous'
+    }
+
     return {
       user,
       fetchSession,
       userAvatar,
       setAvatar,
       userSession,
-      setSession
+      setSession,
+      clearUser
     }
   },
   {
