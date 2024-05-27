@@ -1,86 +1,52 @@
-<script setup>
-import { supabase } from '@/lib/supabaseClient'
-import { onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { useUserStore } from '@/stores/user';
+import type { Session } from '@supabase/supabase-js'
+import { toRefs, computed } from 'vue'
 
+const props = defineProps<{
+  session: Session
+}>()
 
+const userStore = useUserStore()
 
-const loading = ref(true)
-const firstname = ref('')
-const lastname = ref('')
-const email = ref('')
+const { session } = toRefs(props)
 
-onMounted(() => {
-  getProfile()
-})
-
-
-
-async function getProfile() {
-  try {
-    loading.value = true
-    const { user } = session.value
-
-    const { data, error, status } = await supabase
-      .from('customer')
-      .select(`firstname, lastname, email`)
-      .eq('id', user.id)
-      .single()
-
-    if (error && status !== 406) throw error
-
-    if (data) {
-      username.value = data.username
-      website.value = data.website
-      avatar_url.value = data.avatar_url
-    }
-  } catch (error) {
-    alert(error.message)
-  } finally {
-    loading.value = false
-  }
-}
-
-async function updateProfile() {
-  try {
-    loading.value = true
-    const { user } = session.value
-
-    const updates = {
-      id: user.id,
-      username: username.value,
-      website: website.value,
-      avatar_url: avatar_url.value,
-      updated_at: new Date(),
-    }
-
-    const { error } = await supabase.from('profiles').upsert(updates)
-
-    if (error) throw error
-  } catch (error) {
-    alert(error.message)
-  } finally {
-    loading.value = false
-  }
-}
+const email = computed(() => session.value?.user.email)
+const firstname = computed(() => session.value?.user.user_metadata.firstname)
+const lastname = computed(() => session.value?.user.user_metadata.lastname)
+const emailVerified = computed(() => session.value.user.email_confirmed_at !== null)
 
 </script>
 
 <template>
-  <form class="form-widget" @submit.prevent="updateProfile">
-    <div>
-      <label for="email">Email</label>
-      <input id="email" type="text" :value="session.user.email" disabled />
-    </div>
-    <div>
-      <label for="username">Name</label>
-      <input id="username" type="text" v-model="username" />
-    </div>
-
-    <div>
-      <input type="submit" class="button primary block" :value="loading ? 'Loading ...' : 'Update'"
-        :disabled="loading" />
-    </div>
-  </form>
+  <el-card shadow="always">
+    <template #header>
+      <div class="clearfix">
+        <span>Profile</span>
+      </div>
+    </template>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-avatar :size="100" :src="userStore.userAvatar" />
+      </el-col>
+      <el-col :span="12">
+        <el-descriptions :column="1" border>
+          <el-descriptions-item label="First Name">
+            {{ firstname }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Last Name">
+            {{ lastname }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Email">
+            {{ email }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Email Verified">
+            <el-tag :type="emailVerified ? 'success' : 'danger'" effect="plain" size="small">
+              {{ emailVerified ? 'Yes' : 'No' }}
+            </el-tag>
+          </el-descriptions-item>
+        </el-descriptions>
+      </el-col>
+    </el-row>
+  </el-card>
 </template>
-
-<style scoped></style>

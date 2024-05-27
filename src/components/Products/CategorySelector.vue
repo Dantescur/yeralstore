@@ -19,24 +19,28 @@ watch(localSelectedcategories, (newValue) => {
 })
 
 const categoryOptions = computed(() => {
-
   if (!props.product) {
     return []
   } else {
-  return props.product
-    .map((product) => product.category.categoryname)
-    .filter((category, index, self) => category && self.indexOf(category) === index)
-    .map((category) => ({
-      value: category,
-      label: category
-    }))
+    return props.product
+      .map((product) => product.category.categoryname)
+      .filter((category, index, self) => category && self.indexOf(category) === index)
+      .map((category) => ({
+        value: category,
+        label: category
+      }))
   }
-
 })
 </script>
 
 <template>
   <!--suppress HtmlUnknownTag -->
-  <el-select-v2 multiple clearable v-model="localSelectedcategories" :options="categoryOptions"
-    placeholder="Please select" style="width: 240px" />
+  <el-select-v2
+    multiple
+    clearable
+    v-model="localSelectedcategories"
+    :options="categoryOptions"
+    placeholder="Please select"
+    style="width: 240px"
+  />
 </template>

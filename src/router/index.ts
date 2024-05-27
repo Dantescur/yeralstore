@@ -20,7 +20,38 @@ const routes: RouteRecordRaw[] = [
         path: '/profile',
         name: 'profile',
         component: () => import('../pages/CustomerProfile.vue'),
-        meta: { requiresAuth: true, title: 'Profile' }
+        meta: { requiresAuth: true, title: 'Profile' },
+        props: true,
+        children: [
+          {
+            path: '',
+            name: 'account',
+          component: () => import('../components/Customer/AccountPage.vue'),
+            meta: { requiresAuth: true, title: 'Account' },
+            props: true,
+          },
+          {
+            path: '/my-products',
+            name: 'my-products',
+            component: () => import('../components/Customer/MyProductsPage.vue'),
+            meta: { requiresAuth: true, title: 'My Products' },
+            props: true
+          },
+          {
+            path: '/orders',
+            name: 'orders',
+            component: () => import('../components/Customer/OrdersPage.vue'),
+            meta: { requiresAuth: true, title: 'Orders' },
+            props: true
+          },
+          {
+            path: '/settings',
+            name: 'settings',
+            component: () => import('../components/Customer/SettingsPage.vue'),
+            meta: { requiresAuth: true, title: 'Settings' },
+            props: true
+          }
+        ]
       },
       {
         path: '/cart',
@@ -34,7 +65,7 @@ const routes: RouteRecordRaw[] = [
     // Route for the authentication page
     path: '/auth',
     component: () => import('../pages/AuthPage.vue'),
-    name: 'auth',
+    name: 'auth'
     // children: [
     //   {
     //     // Route for signing up

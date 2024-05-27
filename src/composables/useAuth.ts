@@ -31,6 +31,7 @@ export function useAuth() {
    * @returns The created user object if successful, null otherwise
    * @throws The error that occurred if the sign-up request fails
    */
+
   const signIn = async (email: string, password: string): Promise<Session | null> => {
     isLoading.value = true
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
@@ -41,6 +42,7 @@ export function useAuth() {
     }
     return data.session
   }
+
 
 
   const signUp = async (
@@ -58,7 +60,9 @@ export function useAuth() {
       data: { session },
       error: signInError
     } = await supabase.auth.signUp({
-      email, password, options: {
+      email,
+      password,
+      options: {
         data: {
           firstname,
           lastname

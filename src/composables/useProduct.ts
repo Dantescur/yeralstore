@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import type { Tables, TablesInsert } from '@/lib/database.types'
 import type { PostgrestError } from '@supabase/supabase-js'
+import { useProductsStore } from '@/stores/products'
+import { storeToRefs } from 'pinia'
 
 export interface Product {
   productid?: number
@@ -18,7 +20,7 @@ export interface Category {
   categoryname: string
 }
 
-export function useProduct() {
+export const useProduct = () => {
   const products = ref<Product[]>([])
   const isLoading = ref(false)
   const error = ref<PostgrestError | string | undefined>('')
@@ -32,46 +34,6 @@ export function useProduct() {
     category: { categoryname: string }
   }[]
 
-
-  // const fetchProducts = async (): Promise<Product[]> => {
-  //   const { data, error } = await supabase.from('product').select(`
-  //       productname,
-  //       price,
-  //       stock,
-  //       categoryid,
-  //       picture,
-  //       category:categoryid (
-  //         categoryname
-  //       )
-  //   `)
-
-  //   if (error) {
-  //     throw new Error(error.message)
-  //   }
-
-  //   if (!data) {
-  //     throw new Error('No data returned from the query');
-  //   }
-
-  //   const products = data.map((item: any) => {
-  //     if (!item.category || !item.category.categoryname) {
-  //       throw new Error('Category data is missing or incorrect');
-  //     }
-
-  //     return {
-  //       productname: item.productname,
-  //       price: item.price,
-  //       stock: item.stock,
-  //       categoryid: item.categoryid,
-  //       picture: item.picture,
-  //       category: {
-  //         categoryname: item.category.categoryname,
-  //       },
-  //     } as Product;
-  //   });
-
-  //   return products
-  // }
 
   const fetchProducts = async (): Promise<Product[]> => {
     isLoading.value = true
@@ -95,7 +57,10 @@ export function useProduct() {
       error.value = fetchError.message
       throw new Error(fetchError.message)
     } else {
+      const store = useProductsStore()
+      const { products: storedproducts } = storeToRefs(store)
       products.value = data
+      storedproducts.value = data
       return data
     }
   }

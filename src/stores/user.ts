@@ -13,7 +13,7 @@ export const useUserStore = defineStore(
     const userAvatar = ref<string>('')
 
     const setAvatar = () => {
-      let newAvatar;
+      let newAvatar
       if (userSession.value) {
         newAvatar = buildAvatar(userSession.value.user.user_metadata.firstname)
         userAvatar.value = newAvatar()
@@ -21,8 +21,6 @@ export const useUserStore = defineStore(
         newAvatar = buildAvatar('Anonymous')
         userAvatar.value = newAvatar()
       }
-
-
     }
 
     const setSession = (session: Session | null) => {
@@ -38,7 +36,8 @@ export const useUserStore = defineStore(
 
     const clearUser = () => {
       userSession.value = null
-      userAvatar.value = 'Anonymous'
+      setAvatar()
+      // userAvatar.value = 'Anonymous'
     }
 
     return {

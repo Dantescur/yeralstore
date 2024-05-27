@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user'
-import ProductForm from '@/components/Products/ProductForm.vue'
-
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useBreakpoints } from '@vueuse/core'
+import type { TabsPaneContext } from 'element-plus'
+import ProductForm from '@/components/Products/ProductForm.vue'
+import type { Session } from '@supabase/supabase-js'
 
-const userStore = useUserStore()
+defineProps<{
+  session: Session
+}>()
 
 const showProductDrawer = ref(false)
 const showOrderDrawer = ref(false)
@@ -18,24 +21,49 @@ const breakpoints = useBreakpoints({
 })
 
 const mobile = breakpoints.between('mobile', 'tablet')
+
+const route = useRoute()
+const router = useRouter()
+const activeTab = ref(route.name)
+
+// Handle tab click to update the route
+const handleTabClick = (tab: TabsPaneContext) => {
+  router.push({ name: tab.props.name as string })
+}
+
+// Watch route changes to update the active tab
+watch(route, (newRoute) => {
+  activeTab.value = newRoute.name
+})
+
+const tabs = [
+  {
+    label: 'Profile',
+    name: 'account'
+  },
+  {
+    label: 'My Products',
+    name: 'my-products'
+  },
+  {
+    label: 'Orders',
+    name: 'orders'
+  },
+  {
+    label: 'Settings',
+    name: 'settings'
+  }
+]
+
 </script>
 
 <template>
   <div>
-    <el-tabs tab-position="top" style="height: 800px" class="demo-tabs" stretch>
-      <el-tab-pane label="Profile">
-        Profile
+    <el-tabs v-model="activeTab" @tab-click="handleTabClick" tab-position="top" style="height: 800px" class="demo-tabs"
+      stretch>
+      <el-tab-pane v-for="tab in tabs" :key="tab.name" :label="tab.label" :name="tab.name">
       </el-tab-pane>
-      <el-tab-pane label="My Products">
-        Products
-        <!-- <ProductsTable /> -->
-      </el-tab-pane>
-      <el-tab-pane label="Orders">
-        Orders
-      </el-tab-pane>
-      <el-tab-pane label="Settings">
-        Settings
-      </el-tab-pane>
+      <RouterView :session="session" />
     </el-tabs>
     <!-- <el-card class="user-card">
       <el-row>

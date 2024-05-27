@@ -69,7 +69,6 @@ const handleAddProduct = async () => {
   }
 }
 
-
 const resetForm = () => {
   form.value = {
     productname: '',
@@ -95,8 +94,12 @@ const resetForm = () => {
     </el-form-item>
     <el-form-item label="Category">
       <el-select v-model.number="form.categoryid" placeholder="Select Category">
-        <el-option v-for="(category, index) in categories" :key="index" :label="category.categoryname"
-          :value="category.categoryid" />
+        <el-option
+          v-for="(category, index) in categories"
+          :key="index"
+          :label="category.categoryname"
+          :value="category.categoryid"
+        />
       </el-select>
     </el-form-item>
     <el-form-item label="Upload Image">

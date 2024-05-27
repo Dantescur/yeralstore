@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useAuth } from '@/composables'
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user'
 import { User, ShoppingCart, ShoppingBag, TurnOff } from '@element-plus/icons-vue'
-import { computed } from 'vue';
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 const { signOut } = useAuth()
 
@@ -12,9 +12,6 @@ const logOut = async () => {
   await signOut()
   userStore.clearUser()
 }
-
-
-
 
 const links = computed(() => {
   if (userStore.userSession) {
@@ -69,9 +66,19 @@ const router = useRouter()
       <template #title>
         <el-avatar shape="circle" :size="50" :src="userStore.userAvatar" />
       </template>
-      <el-menu-item v-for="link in links" :key="link.index" :index="link.index" style="width: 100%" class="menu-item">
-        <el-link v-if="link.link !== 'logout'" :icon="link.icon" @click="router.push(`/${link.link}`)"
-          style="width: 100%">
+      <el-menu-item
+        v-for="link in links"
+        :key="link.index"
+        :index="link.index"
+        style="width: 100%"
+        class="menu-item"
+      >
+        <el-link
+          v-if="link.link !== 'logout'"
+          :icon="link.icon"
+          @click="router.push(`/${link.link}`)"
+          style="width: 100%"
+        >
           {{ link.title }}
         </el-link>
         <el-link v-else :icon="link.icon" @click="logOut()" style="width: 100%">

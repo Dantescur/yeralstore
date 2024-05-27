@@ -9,6 +9,7 @@ import ProductHeader from '@/components/Products/ProductHeader.vue'
 import CategorySelector from '@/components/Products/CategorySelector.vue'
 import { useQuery } from '@tanstack/vue-query'
 import type { Product } from '@/composables'
+import { useUserStore } from '@/stores/user'
 
 const breakpoints = useBreakpoints({
   mobile: 0,
@@ -22,15 +23,19 @@ const mobile = breakpoints.between('mobile', 'tablet')
 const { fetchProducts } = useProduct()
 
 const {
-  data: products,
-  isError,
-  isLoading,
-  error,
-  isPending
+  data: products
+  // isError,
+  // isLoading,
+  // error,
+  // isPending
 } = useQuery({
   queryKey: ['products'],
   queryFn: fetchProducts
 })
+
+const userStore = useUserStore()
+
+userStore.setAvatar()
 
 // await fetchProducts()
 

@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { supabase } from './lib/supabaseClient'
 import { useUserStore } from './stores/user'
-import { SpeedInsights } from '@vercel/speed-insights/vue';
+import { SpeedInsights } from '@vercel/speed-insights/vue'
 
 const userStore = useUserStore()
 
@@ -28,7 +28,4 @@ onMounted(() => {
   </Suspense>
 </template>
 
-<style>
-
-
-</style>
+<style></style>
